@@ -943,6 +943,222 @@ df_mean.columns = ['gene', 'sgRNA', 'log2fold_diff_mean']
 df_mean.to_csv('../../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_tracketch_10_2hr_sgRNA_means.csv')
 
 
+# #################################
+# #################################
+# # Cell migration - Amoeboid 3D (collagen/fibrin), uniform 10% FBS
+# #################################
+# #################################
+#
+# #################################
+# # load in sgRNA counts
+# #################################
+# # load in sgRNA library IDs
+# df_IDs = pd.read_csv('../../../data/seq/Sanson_Dolc_CRISPRI_IDs_libA.csv')
+# df_IDs.columns = ['sgRNA', 'annotated_gene_symbol', 'annotated_gene_ID']
+#
+# df = df_IDs.copy()
+# exp_list_set1 = ['NB101', 'NB102', 'NB103', 'NB104', 'NB112', 'NB113', 'NB114',
+#             'NB118', 'NB119']
+#
+# for exp in exp_list_set1:
+#     df_temp = pd.read_csv('../../../data/seq/20210210_novogene/raw_data/' +
+#                           exp + '/test_trim_seqtk_sgRNAcounts_20210218.csv')
+#
+#     df_temp_matched = df_temp[df_temp.sgRNA.isin(df_IDs.sgRNA.values)]
+#     df_temp_notmatched = df_IDs[~df_IDs.sgRNA.isin(df_temp_matched.sgRNA.values)]
+#     df_temp_notmatched[''.join(['counts_',exp])] = 0
+#
+#     df_temp_matched = df_temp_matched[['sgRNA', 'index']]
+#
+#     df_temp_matched.columns = ['sgRNA', ''.join(['counts_',exp])]
+#     df_temp_matched = df_temp_matched.append(df_temp_notmatched[['sgRNA', ''.join(['counts_',exp])]])
+#
+#     df = pd.merge(df, df_temp_matched[['sgRNA',''.join(['counts_',exp])]], on = 'sgRNA')
+#
+#
+# exp_list_set2 = ['NB105', 'NB106', 'NB107', 'NB108', 'NB109', 'NB110', 'NB111',
+#                   'NB115', 'NB116', 'NB117', 'NB120']
+#
+# for exp in exp_list_set2:
+#     df_temp = pd.read_csv('../../../data/seq/20210310_novogene/raw_data/' +
+#                           exp + '/trim_seqtk_sgRNAcounts_20210312_truncate.csv')
+#
+#     df_temp_matched = df_temp[df_temp.sgRNA.isin(df_IDs.sgRNA.values)]
+#     df_temp_notmatched = df_IDs[~df_IDs.sgRNA.isin(df_temp_matched.sgRNA.values)]
+#     df_temp_notmatched[''.join(['counts_',exp])] = 0
+#
+#     df_temp_matched = df_temp_matched[['sgRNA', 'index']]
+#
+#     df_temp_matched.columns = ['sgRNA', ''.join(['counts_',exp])]
+#     df_temp_matched = df_temp_matched.append(df_temp_notmatched[['sgRNA', ''.join(['counts_',exp])]])
+#
+#     df = pd.merge(df, df_temp_matched[['sgRNA',''.join(['counts_',exp])]], on = 'sgRNA')
+#
+#
+# exp_list_set3 = ['NB137', 'NB138', 'NB139', 'NB140', 'NB141', 'NB142',
+#                  'NB143', 'NB144', 'NB145', 'NB146', 'NB147']
+# dirname = '/Volumes/Belliveau_RAW_3_JTgroup/Sequencing_RAW/20210614_novogene/raw_data/'
+#
+# # a bit of count threshold filtered based on some observations with the data
+# count_threshold = {'NB137' : 0,
+#                    'NB138' : 0,
+#                    'NB139' : 0,
+#                    'NB140' : 0,
+#                    'NB141' : 50,
+#                    'NB142' : 40,
+#                    'NB143' : 60,
+#                    'NB144' : 30,
+#                    'NB146' : 30,
+#                    'NB145' : 30,
+#                    'NB147' : 70
+#                   }
+#
+# for exp in exp_list_set3:
+#     df_temp = pd.read_csv(dirname + exp + '/trim_seqtk_sgRNAcounts_20210714.csv')
+#
+#     df_temp_matched = df_temp[df_temp.sgRNA.isin(df_IDs.sgRNA.values)]
+#     df_temp_notmatched = df_IDs[~df_IDs.sgRNA.isin(df_temp_matched.sgRNA.values)]
+#     df_temp_notmatched[''.join(['counts_',exp])] = 0
+#
+#     df_temp_matched = df_temp_matched[['sgRNA', 'index']]
+#
+#     df_temp_matched.columns = ['sgRNA', ''.join(['counts_',exp])]
+#
+#     df_temp_matched = df_temp_matched.append(df_temp_notmatched[['sgRNA', ''.join(['counts_',exp])]])
+#
+#     df = pd.merge(df, df_temp_matched[['sgRNA',''.join(['counts_',exp])]], on = 'sgRNA')
+#
+# #################################
+# # Calculate log2 fold change (with median normalization and 'prior' of log2(32))
+# #################################
+# # fibrin
+# df['NB117_NB115_diff'] = np.log2(df.counts_NB117 + 32) - np.log2(df.counts_NB117.median()) - (np.log2(df.counts_NB115 + 32) - np.log2(df.counts_NB115.median()))
+# df['NB119_NB116_diff'] = np.log2(df.counts_NB119 + 32) - np.log2(df.counts_NB119.median()) - (np.log2(df.counts_NB116 + 32) - np.log2(df.counts_NB116.median()))
+#
+# # collagen
+# df['NB118_NB115_diff'] = np.log2(df.counts_NB118 + 32) - np.log2(df.counts_NB118.median()) - (np.log2(df.counts_NB115 + 32) - np.log2(df.counts_NB115.median()))
+# df['NB120_NB116_diff'] = np.log2(df.counts_NB120 + 32) - np.log2(df.counts_NB120.median()) - (np.log2(df.counts_NB116 + 32) - np.log2(df.counts_NB116.median()))
+#
+# df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB117_NB115_diff']]
+# df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
+# df_temp['exp'] = 'fibrin_1_A'
+# df_compare_ECM = df_temp.copy()
+#
+# df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB119_NB116_diff']]
+# df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# scale_new_data = scale_data(df_temp['diff'], means = s.mean_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
+# df_temp['exp'] = 'fibrin_1_B'
+# df_compare_ECM = df_compare_ECM.append(df_temp)
+#
+# df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB118_NB115_diff']]
+# df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
+# df_temp['diff'] = preprocessing.scale(-df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
+# df_temp['exp'] = 'collagen_1_A'
+# df_compare_ECM = df_compare_ECM.append(df_temp)
+#
+# df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB120_NB116_diff']]
+# df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
+# df_temp['diff'] = preprocessing.scale(-df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
+# df_temp['exp'] = 'collagen_1_B'
+# df_compare_ECM = df_compare_ECM.append(df_temp)
+#
+#
+# # Replicate 2
+# # fibrin
+# df['NB141_NB137_diff'] = np.log2(df.counts_NB141 + 32) - np.log2(df.counts_NB141.median()) - (np.log2(df.counts_NB137 + 32) - np.log2(df.counts_NB137.median()))
+#
+# # collagen
+# df['NB142_NB137_diff'] = np.log2(df.counts_NB142 + 32) - np.log2(df.counts_NB142.median()) - (np.log2(df.counts_NB137 + 32) - np.log2(df.counts_NB137.median()))
+# df['NB143_NB138_diff'] = np.log2(df.counts_NB143 + 32) - np.log2(df.counts_NB143.median()) - (np.log2(df.counts_NB138 + 32) - np.log2(df.counts_NB138.median()))
+#
+# df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB141_NB137_diff']]
+# df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
+# df_temp['exp'] = 'fibrin_2_A'
+# df_compare_ECM = df_compare_ECM.append(df_temp)
+#
+# # Replicate 3
+#
+# # fibrin
+# df['NB144_NB139_diff'] = np.log2(df.counts_NB144 + 32) - np.log2(df.counts_NB144.median()) - (np.log2(df.counts_NB139 + 32) - np.log2(df.counts_NB139.median()))
+# df['NB146_NB140_diff'] = np.log2(df.counts_NB146 + 32) - np.log2(df.counts_NB146.median()) - (np.log2(df.counts_NB140 + 32) - np.log2(df.counts_NB140.median()))
+#
+# # collagen
+# df['NB145_NB139_diff'] = np.log2(df.counts_NB145 + 32) - np.log2(df.counts_NB145.median()) - (np.log2(df.counts_NB139 + 32) - np.log2(df.counts_NB139.median()))
+# df['NB147_NB140_diff'] = np.log2(df.counts_NB147 + 32) - np.log2(df.counts_NB147.median()) - (np.log2(df.counts_NB140 + 32) - np.log2(df.counts_NB140.median()))
+#
+#
+# df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB144_NB139_diff']]
+# df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
+# df_temp['exp'] = 'fibrin_3_A'
+# df_compare_ECM = df_compare_ECM.append(df_temp)
+#
+# df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB146_NB140_diff']]
+# df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
+# df_temp['exp'] = 'fibrin_3_B'
+# df_compare_ECM = df_compare_ECM.append(df_temp)
+#
+# #################################
+# # Save collated log2fold change values to disk
+# #################################
+# df_compare_ECM.to_csv('../../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_all.csv')
+#
+# #################################
+# # Calculate mean values for each sgRNA and save to disk
+# #################################
+# df_mean = pd.DataFrame()
+# for sg, d in df_compare_ECM.groupby('sgRNA'):
+#     data_list = {'sgRNA' : sg,
+#     'annotated_gene_symbol' : d.annotated_gene_symbol.unique(),
+#     'diff' : d['diff'].mean()}
+#
+#     df_mean = df_mean.append(data_list, ignore_index = True)
+#
+# df_mean['gene'] = [i[0] for i in df_mean.annotated_gene_symbol.values]
+#
+# #cleanup dataframe columns
+# df_mean = df_mean[['gene', 'sgRNA', 'diff']]
+# df_mean.columns = ['gene', 'sgRNA', 'log2fold_diff_mean']
+#
+# df_mean.to_csv('../../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_means.csv')
+
 #################################
 #################################
 # Cell migration - Amoeboid 3D (collagen/fibrin), uniform 10% FBS
@@ -1041,44 +1257,44 @@ df['NB120_NB116_diff'] = np.log2(df.counts_NB120 + 32) - np.log2(df.counts_NB120
 
 df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB117_NB115_diff']]
 df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
-df_temp['diff'] = preprocessing.scale(df_temp['diff'])
-s = preprocessing.StandardScaler()
-s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
-median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
-scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
-df_temp['diff'] = scale_new_data
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
 df_temp['exp'] = 'fibrin_1_A'
 df_compare_ECM = df_temp.copy()
 
 df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB119_NB116_diff']]
 df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
-df_temp['diff'] = preprocessing.scale(df_temp['diff'])
-s = preprocessing.StandardScaler()
-s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
-scale_new_data = scale_data(df_temp['diff'], means = s.mean_, stds = s.scale_)
-df_temp['diff'] = scale_new_data
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# scale_new_data = scale_data(df_temp['diff'], means = s.mean_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
 df_temp['exp'] = 'fibrin_1_B'
 df_compare_ECM = df_compare_ECM.append(df_temp)
 
 df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB118_NB115_diff']]
 df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
-df_temp['diff'] = preprocessing.scale(-df_temp['diff'])
-s = preprocessing.StandardScaler()
-s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
-median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
-scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
-df_temp['diff'] = scale_new_data
+# df_temp['diff'] = preprocessing.scale(-df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
 df_temp['exp'] = 'collagen_1_A'
 df_compare_ECM = df_compare_ECM.append(df_temp)
 
 df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB120_NB116_diff']]
 df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
-df_temp['diff'] = preprocessing.scale(-df_temp['diff'])
-s = preprocessing.StandardScaler()
-s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
-median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
-scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
-df_temp['diff'] = scale_new_data
+# df_temp['diff'] = preprocessing.scale(-df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
 df_temp['exp'] = 'collagen_1_B'
 df_compare_ECM = df_compare_ECM.append(df_temp)
 
@@ -1093,12 +1309,12 @@ df['NB143_NB138_diff'] = np.log2(df.counts_NB143 + 32) - np.log2(df.counts_NB143
 
 df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB141_NB137_diff']]
 df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
-df_temp['diff'] = preprocessing.scale(df_temp['diff'])
-s = preprocessing.StandardScaler()
-s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
-median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
-scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
-df_temp['diff'] = scale_new_data
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
 df_temp['exp'] = 'fibrin_2_A'
 df_compare_ECM = df_compare_ECM.append(df_temp)
 
@@ -1115,30 +1331,30 @@ df['NB147_NB140_diff'] = np.log2(df.counts_NB147 + 32) - np.log2(df.counts_NB147
 
 df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB144_NB139_diff']]
 df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
-df_temp['diff'] = preprocessing.scale(df_temp['diff'])
-s = preprocessing.StandardScaler()
-s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
-median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
-scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
-df_temp['diff'] = scale_new_data
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
 df_temp['exp'] = 'fibrin_3_A'
 df_compare_ECM = df_compare_ECM.append(df_temp)
 
 df_temp = df[['sgRNA', 'annotated_gene_symbol', 'NB146_NB140_diff']]
 df_temp.columns = ['sgRNA', 'annotated_gene_symbol', 'diff']
-df_temp['diff'] = preprocessing.scale(df_temp['diff'])
-s = preprocessing.StandardScaler()
-s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
-median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
-scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
-df_temp['diff'] = scale_new_data
+# df_temp['diff'] = preprocessing.scale(df_temp['diff'])
+# s = preprocessing.StandardScaler()
+# s.fit(np.array([df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].values]).T)
+# median_ = df_temp[df_temp.annotated_gene_symbol == 'CONTROL']['diff'].median()
+# scale_new_data = scale_data(df_temp['diff'], means = median_, stds = s.scale_)
+# df_temp['diff'] = scale_new_data
 df_temp['exp'] = 'fibrin_3_B'
 df_compare_ECM = df_compare_ECM.append(df_temp)
 
 #################################
 # Save collated log2fold change values to disk
 #################################
-df_compare_ECM.to_csv('../../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_all.csv')
+df_compare_ECM.to_csv('../../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_all_2.csv')
 
 #################################
 # Calculate mean values for each sgRNA and save to disk
@@ -1157,4 +1373,4 @@ df_mean['gene'] = [i[0] for i in df_mean.annotated_gene_symbol.values]
 df_mean = df_mean[['gene', 'sgRNA', 'diff']]
 df_mean.columns = ['gene', 'sgRNA', 'log2fold_diff_mean']
 
-df_mean.to_csv('../../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_means.csv')
+df_mean.to_csv('../../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_means_2.csv')
