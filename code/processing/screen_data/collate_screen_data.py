@@ -114,6 +114,7 @@ df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
 df_temp = df_temp.append(df_ctrl, ignore_index = True)
 df_collate = df_collate.append(df_temp, ignore_index = True)
 
+df_temp = pd.DataFrame()
 for sg, d in df[df.exp.str.contains('bottom')].groupby(['sgRNA', 'gene']):
     data = {'gene' : sg[1],
             'sgRNA' : sg[0],
@@ -151,6 +152,7 @@ df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
 df_temp = df_temp.append(df_ctrl, ignore_index = True)
 df_collate = df_collate.append(df_temp, ignore_index = True)
 
+df_temp = pd.DataFrame()
 for sg, d in df[df.exp.str.contains('bottom')].groupby(['sgRNA', 'gene']):
     data = {'gene' : sg[1],
             'sgRNA' : sg[0],
@@ -188,6 +190,7 @@ df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
 df_temp = df_temp.append(df_ctrl, ignore_index = True)
 df_collate = df_collate.append(df_temp, ignore_index = True)
 
+df_temp = pd.DataFrame()
 for sg, d in df[df.exp.str.contains('bottom')].groupby(['sgRNA', 'gene']):
     data = {'gene' : sg[1],
             'sgRNA' : sg[0],
@@ -225,6 +228,7 @@ df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
 df_temp = df_temp.append(df_ctrl, ignore_index = True)
 df_collate = df_collate.append(df_temp, ignore_index = True)
 
+df_temp = pd.DataFrame()
 for sg, d in df[df.exp.str.contains('collagen')].groupby(['sgRNA', 'gene']):
     data = {'gene' : sg[1],
             'sgRNA' : sg[0],
