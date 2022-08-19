@@ -1,0 +1,57 @@
+# place in '/Users/nathanb/.matplotlib/stylelib/'
+# more useful info https://matplotlib.org/stable/tutorials/introductory/customizing.html
+
+# Figure properties
+figure.figsize: 4, 4
+
+# Font Properties
+# font.family: Lucida Sans Regular
+font.family: sans-serif
+font.sans-serif: Arial
+font.size: 11
+
+# Axes properties
+axes.linewidth: 0.6
+axes.labelpad: 8
+axes.spines.top:    False
+axes.spines.right:  False
+
+# axes.prop_cycle: cycler(color = ['008fd5', 'fc4f30', 'e5ae38', '6d904f', '8b8b8b', '810f7c'])
+axes.prop_cycle: cycler(color = ['738FC1', '7AA974', 'D56C55', 'EAC264', 'AB85AC', 'C9D7EE', 'E8B19D', 'DCECCB', 'D4C2D9'])
+
+
+
+# Tick properties
+# x-axis
+# xtick.top: True
+xtick.direction: in
+# y-axis
+# ytick.right: True
+ytick.direction: in
+
+
+# x-axis
+xtick.major.size: 5
+xtick.major.width: 0.6
+xtick.minor.size: 3
+xtick.minor.width: 0.6
+xtick.labelsize: 11
+xtick.top:  False
+
+# y-axis
+ytick.major.size: 5
+ytick.major.width: 0.6
+ytick.minor.size: 3
+ytick.minor.width: 0.6
+ytick.labelsize: 11
+
+ytick.right:  False
+
+# Lines properties
+lines.linewidth: 0.6
+
+# Legend properties
+legend.framealpha: 1
+legend.frameon: True
+#legend.frameon: True     # if True, draw the legend on a background patch
+legend.fancybox: True
