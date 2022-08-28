@@ -278,7 +278,7 @@ for g,d in df_growth[df_growth.DMSO == True][df_growth.day_diff>=4].groupby(['ce
                color  = cell_lines_colors[g], label = None, lw = lw)
 
 # legend_without_duplicate_labels(ax3)
-ax3.set_xlabel('time post-differentiation [day] ')
+ax3.set_xlabel('time post-differentiation [day]')
 ax3.set_ylabel('dHL-60 relative cell density')
 ax3.set_xlim(3.5,14)
 ax3.set_ylim(0,1.15)
