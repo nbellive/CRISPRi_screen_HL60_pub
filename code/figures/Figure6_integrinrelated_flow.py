@@ -36,22 +36,28 @@ ax11 = fig.add_subplot(gs[0,1])
 files = glob.glob('../../data/flow_cytometry/20220317_KDlines_integrinrelated_repeats/*iso*.fcs')
 
 sample = FCMeasurement(ID='ctrl', datafile=files[1])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
+# # gate out the noise and dead cells
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
 
-sns.kdeplot(sample["BB515-A"], ax = ax10, color = 'grey',
+sns.kdeplot(sample["BB515-A_l"], ax = ax10, color = 'grey',
             lw = 0, alpha = 0.3, legend = False, shade = True)
 
 sample = FCMeasurement(ID='ctrl', datafile=files[2])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
-sns.kdeplot(sample["BB515-A"], ax = ax11, color = 'grey',
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
+
+sns.kdeplot(sample["BB515-A_l"], ax = ax11, color = 'grey',
             lw = 0, alpha = 0.3, legend = False, shade = True)
 
 ############################
@@ -63,24 +69,26 @@ ax21 = fig.add_subplot(gs[1,1])
 files = glob.glob('../../data/flow_cytometry/20220317_KDlines_integrinrelated_repeats/*Ctrl*.fcs')
 
 sample = FCMeasurement(ID='ctrl', datafile=files[7])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
-# ax20.hist(sample["BB515-A"], bins = 100, density = True,
-#           lw = 2, color = '#B8BABC', histtype = 'step',)#, label  = samples[i])
-sns.kdeplot(sample["BB515-A"], ax = ax20, color = 'k', ls = '-', lw = 1.5, legend = False)
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
+
+sns.kdeplot(sample["BB515-A_l"], ax = ax20, color = 'k', ls = '-', lw = 1.5, legend = False)
 
 sample = FCMeasurement(ID='ctrl', datafile=files[6])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
-# _ = ax21.hist(sample["BB515-A"], bins = 100, density = True,
-#        histtype = 'step', lw = 2, color = '#B8BABC')#, label  = samples[i])
-sns.kdeplot(sample["BB515-A"], ax = ax21, color = 'k', ls = '-', lw = 1.5, legend = False)
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
+
+sns.kdeplot(sample["BB515-A_l"], ax = ax21, color = 'k', ls = '-', lw = 1.5, legend = False)
 
 ############################
 ############################
@@ -89,89 +97,96 @@ ax31 = fig.add_subplot(gs[2,1])
 files = glob.glob('../../data/flow_cytometry/20220317_KDlines_integrinrelated_repeats/*sgITGB2*.fcs')
 
 sample = FCMeasurement(ID='ctrl', datafile=files[2])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
 
-# _ = ax30.hist(sample["BB515-A"], bins = 100, density = True,
-#        histtype = 'step', lw = 2, color = '#738FC1')#, label  = samples[i])
-sns.kdeplot(sample["BB515-A"], ax = ax30, color = '#738FC1', ls = '-', lw = 1.5, legend = False)
+sns.kdeplot(sample["BB515-A_l"], ax = ax30, color = '#738FC1', ls = '-', lw = 1.5, legend = False)
 
 sample = FCMeasurement(ID='ctrl', datafile=files[-1])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
-# _ = ax31.hist(sample["BB515-A"], bins = 100, density = True,
-#        histtype = 'step', lw = 2, color = '#738FC1')#, label  = samples[i])
-sns.kdeplot(sample["BB515-A"], ax = ax31, color = '#738FC1', ls = '-', lw = 1.5, legend = False)
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
+
+sns.kdeplot(sample["BB515-A_l"], ax = ax31, color = '#738FC1', ls = '-', lw = 1.5, legend = False)
 
 ############################
 ############################
 files = glob.glob('../../data/flow_cytometry/20220317_KDlines_integrinrelated_repeats/*sgVPS*.fcs')
 
 sample = FCMeasurement(ID='ctrl', datafile=files[3])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
-# _ = ax30.hist(sample["BB515-A"], bins = 100, density = True,
-#        histtype = 'step', lw = 2, color = '#738FC1',
-#              ls = '-.')#, label  = samples[i])
-sns.kdeplot(sample["BB515-A"], ax = ax30, color = '#738FC1', ls = '-.', lw = 1.5, legend = False)
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
+
+sns.kdeplot(sample["BB515-A_l"], ax = ax30, color = '#738FC1', ls = '-.', lw = 1.5, legend = False)
 
 sample = FCMeasurement(ID='ctrl', datafile=files[4])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
-sns.kdeplot(sample["BB515-A"], ax = ax31, color = '#738FC1', ls = '-.', lw = 1.5, legend = False)
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
+
+sns.kdeplot(sample["BB515-A_l"], ax = ax31, color = '#738FC1', ls = '-.', lw = 1.5, legend = False)
 
 ############################
 ############################
 files = glob.glob('../../data/flow_cytometry/20220317_KDlines_integrinrelated_repeats/*sgSNX17*.fcs')
 
 sample = FCMeasurement(ID='ctrl', datafile=files[-1])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
-# _ = ax30.hist(sample["BB515-A"], bins = 100, density = True,
-#        histtype = 'step', lw = 2, color = '#738FC1',
-#              ls = '--')#, label  = samples[i])
-sns.kdeplot(sample["BB515-A"], ax = ax30, color = '#738FC1', ls = '--', lw = 1.5, legend = False)
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
+
+sns.kdeplot(sample["BB515-A_l"], ax = ax30, color = '#738FC1', ls = '--', lw = 1.5, legend = False)
 
 sample = FCMeasurement(ID='ctrl', datafile=files[3])
-sample = sample.transform('hlog', channels=['FSC-A', 'SSC-A', 'BB515-A', 'FPR1: AF 647-A', 'BB700: PerCP-Cy5.5-A'], b=500.0)
 sample = sample.data
-sample = sample[sample['FSC-A'] >= 8.9E3]
-sample = sample[sample['FSC-A'] <= 10E3]
 
-# _ = ax31.hist(sample["BB515-A"], bins = 100, density = True,
-#        histtype = 'step', lw = 2, color = '#738FC1',
-#              ls = '--')#, label  = samples[i])
+sample = sample[sample['FSC-A'] >= 1.9E5]
+sample = sample[sample['SSC-A'] >= 0.4E5]
+sample = sample[sample['SSC-A'] <= 1.2E5]
+# log values
+sample['BB515-A_l'] = np.log10(sample['BB515-A'][sample['BB515-A'] > 0])
 
-import seaborn as sns
-sns.kdeplot(sample["BB515-A"], ax = ax31, color = '#738FC1', ls = '--', lw = 1.5, legend = False)
+sns.kdeplot(sample["BB515-A_l"], ax = ax31, color = '#738FC1', ls = '--', lw = 1.5, legend = False)
 
-# ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
-# ax.set_xlabel('ITGB2 expression (fluorescence, a.u.)', fontsize = 20)
-# ax[0].set_ylabel('frequency', fontsize = 20)
 
 for ax_ in [ax10,ax11,ax20,ax21,ax30,ax31]:
     ax_.set_yticks([])
-    ax_.set_xticks([0,2E3,4E3, 6E3, 8E3,10000])
-    ax_.set_xlim(0,10000)
+    # ax_.set_xticks([0,2E3,4E3, 6E3, 8E3,10000])
+    ax_.set_xlim(2,4.6)
     ax_.grid(axis='x', color= 'grey', alpha  = 0.2)#xcolor='0.95')
-#     ax_.set_xticklabels([])
-#     ax_.axes.get_xaxis().set_visible(False)
+
+    # ax_.axes.get_xaxis().set_visible(False)
+    ax_.axes.get_yaxis().set_visible(False)
+    ax_.set_xlabel(None)
+    ax_.set_xticks(np.log10([200,300,400,500,600,700,800,900,
+                            2000,3000,4000,5000,6000,7000,8000,9000,
+                            20000,30000,40000,50000,60000,70000,80000,90000,
+                            200000,300000]), minor = True)
+    ax_.set_xticks(np.log10([100,1000, 10000,100000]))
     ax_.set_xticklabels([])
+    ax_.tick_params(length=8)
 
 
 plt.tight_layout()
