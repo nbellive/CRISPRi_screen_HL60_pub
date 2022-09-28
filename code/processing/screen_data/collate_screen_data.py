@@ -251,14 +251,153 @@ exps = ['20220412_screen_log2fold_diffs_growth_sgRNA_means.csv',
 #######################
 #######################
 #######################
+#
+# df_collate2 = pd.DataFrame()
+#
+# #######################
+# # migration, amoeboid 3D
+# df = pd.read_csv(fdir + '20220516_screen_log2fold_diffs_ECM_all_2.csv')
+# df = df[['annotated_gene_symbol', 'sgRNA', 'diff', 'exp']]
+# df.columns = ['gene', 'sgRNA', 'log2fold_diff', 'exp']
+#
+# # assign unique number to each control sgRNA
+# sgRNA_dict = dict(zip(df[df.gene == 'CONTROL'].sgRNA.unique(),
+#                       np.arange(len(df[df.gene == 'CONTROL']))))
+#
+# df_temp = pd.DataFrame()
+# for sg, d in df[df.exp.str.contains('fibrin')].groupby(['sgRNA', 'gene']):
+#     data = {'gene' : sg[1],
+#             'sgRNA' : sg[0],
+#             'log2fold_diff' : d.log2fold_diff.mean(),
+#             'exp' : 'ECM_fibrin'}
+#     df_temp = df_temp.append(data, ignore_index = True)
+# df_ctrl = df_temp[df_temp.gene == 'CONTROL']
+# df_temp = df_temp[df_temp.gene != 'CONTROL']
+# df_ctrl = df_ctrl[['sgRNA', 'log2fold_diff', 'exp']]
+# df_ctrl['gene'] = df_ctrl['sgRNA'].map(sgRNA_dict)
+# df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
+# df_temp = df_temp.append(df_ctrl, ignore_index = True)
+# df_collate2 = df_collate2.append(df_temp, ignore_index = True)
+#
+# df_temp = pd.DataFrame()
+# for sg, d in df[df.exp.str.contains('collagen')].groupby(['sgRNA', 'gene']):
+#     data = {'gene' : sg[1],
+#             'sgRNA' : sg[0],
+#             'log2fold_diff' : d.log2fold_diff.mean(),
+#             'exp' : 'ECM_collagen'}
+#     df_temp = df_temp.append(data, ignore_index = True)
+# df_ctrl = df_temp[df_temp.gene == 'CONTROL']
+# df_temp = df_temp[df_temp.gene != 'CONTROL']
+# df_ctrl = df_ctrl[['sgRNA', 'log2fold_diff', 'exp']]
+# df_ctrl['gene'] = df_ctrl['sgRNA'].map(sgRNA_dict)
+# df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
+# df_temp = df_temp.append(df_ctrl, ignore_index = True)
+# df_collate2 = df_collate2.append(df_temp, ignore_index = True)
+#
+#
+# #######################
+# # migration, amoeboid 3D
+# df = pd.read_csv(fdir + '20220516_screen_log2fold_diffs_ECM_all_2.csv')
+# df = df[['annotated_gene_symbol', 'sgRNA', 'diff', 'exp']]
+# df.columns = ['gene', 'sgRNA', 'log2fold_diff', 'exp']
+# df_temp = pd.DataFrame()
+# for sg, d in df.groupby(['sgRNA', 'gene']):
+#     data = {'gene' : sg[1],
+#             'sgRNA' : sg[0],
+#             'log2fold_diff' : d.log2fold_diff.mean(),
+#             'exp' : 'ECM_fibrin_collagengood'}
+#     df_temp = df_temp.append(data, ignore_index = True)
+# df_ctrl = df_temp[df_temp.gene == 'CONTROL']
+# df_temp = df_temp[df_temp.gene != 'CONTROL']
+# df_ctrl = df_ctrl[['sgRNA', 'log2fold_diff', 'exp']]
+# df_ctrl['gene'] = df_ctrl['sgRNA'].map(sgRNA_dict)
+# df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
+# df_temp = df_temp.append(df_ctrl, ignore_index = True)
+# df_collate2 = df_collate2.append(df_temp, ignore_index = True)
+#
+# # save to disk
+# df_collate2.to_csv('../../../data/screen_summary/log2foldchange/collated_screen_data_ECM_2.csv')
+#
+#
+# df_collate3 = pd.DataFrame()
+#
+# #######################
+# # migration, amoeboid 3D
+# df = pd.read_csv(fdir + '20220516_screen_log2fold_diffs_ECM_all_3.csv')
+# df = df[['annotated_gene_symbol', 'sgRNA', 'diff', 'exp']]
+# df.columns = ['gene', 'sgRNA', 'log2fold_diff', 'exp']
+#
+# # assign unique number to each control sgRNA
+# sgRNA_dict = dict(zip(df[df.gene == 'CONTROL'].sgRNA.unique(),
+#                       np.arange(len(df[df.gene == 'CONTROL']))))
+#
+# df_temp = pd.DataFrame()
+# for sg, d in df[df.exp.str.contains('fibrin')].groupby(['sgRNA', 'gene']):
+#     data = {'gene' : sg[1],
+#             'sgRNA' : sg[0],
+#             'log2fold_diff' : d.log2fold_diff.mean(),
+#             'exp' : 'ECM_fibrin'}
+#     df_temp = df_temp.append(data, ignore_index = True)
+# df_ctrl = df_temp[df_temp.gene == 'CONTROL']
+# df_temp = df_temp[df_temp.gene != 'CONTROL']
+# df_ctrl = df_ctrl[['sgRNA', 'log2fold_diff', 'exp']]
+# df_ctrl['gene'] = df_ctrl['sgRNA'].map(sgRNA_dict)
+# df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
+# df_temp = df_temp.append(df_ctrl, ignore_index = True)
+# df_collate3 = df_collate3.append(df_temp, ignore_index = True)
+#
+# df_temp = pd.DataFrame()
+# for sg, d in df[df.exp.str.contains('collagen')].groupby(['sgRNA', 'gene']):
+#     data = {'gene' : sg[1],
+#             'sgRNA' : sg[0],
+#             'log2fold_diff' : d.log2fold_diff.mean(),
+#             'exp' : 'ECM_collagen'}
+#     df_temp = df_temp.append(data, ignore_index = True)
+# df_ctrl = df_temp[df_temp.gene == 'CONTROL']
+# df_temp = df_temp[df_temp.gene != 'CONTROL']
+# df_ctrl = df_ctrl[['sgRNA', 'log2fold_diff', 'exp']]
+# df_ctrl['gene'] = df_ctrl['sgRNA'].map(sgRNA_dict)
+# df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
+# df_temp = df_temp.append(df_ctrl, ignore_index = True)
+# df_collate3 = df_collate3.append(df_temp, ignore_index = True)
+#
+#
+# #######################
+# # migration, amoeboid 3D
+# df = pd.read_csv(fdir + '20220516_screen_log2fold_diffs_ECM_all_3.csv')
+# df = df[['annotated_gene_symbol', 'sgRNA', 'diff', 'exp']]
+# df.columns = ['gene', 'sgRNA', 'log2fold_diff', 'exp']
+# df_temp = pd.DataFrame()
+# for sg, d in df.groupby(['sgRNA', 'gene']):
+#     data = {'gene' : sg[1],
+#             'sgRNA' : sg[0],
+#             'log2fold_diff' : d.log2fold_diff.mean(),
+#             'exp' : 'ECM_fibrin_collagengood'}
+#     df_temp = df_temp.append(data, ignore_index = True)
+# df_ctrl = df_temp[df_temp.gene == 'CONTROL']
+# df_temp = df_temp[df_temp.gene != 'CONTROL']
+# df_ctrl = df_ctrl[['sgRNA', 'log2fold_diff', 'exp']]
+# df_ctrl['gene'] = df_ctrl['sgRNA'].map(sgRNA_dict)
+# df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
+# df_temp = df_temp.append(df_ctrl, ignore_index = True)
+# df_collate3 = df_collate3.append(df_temp, ignore_index = True)
+#
+# # save to disk
+# df_collate3.to_csv('../../../data/screen_summary/log2foldchange/collated_screen_data_ECM_3.csv')
 
-df_collate2 = pd.DataFrame()
+
+df_collate4 = pd.DataFrame()
 
 #######################
 # migration, amoeboid 3D
-df = pd.read_csv(fdir + '20220516_screen_log2fold_diffs_ECM_sgRNA_all_2.csv')
+df = pd.read_csv(fdir + '20220516_screen_log2fold_diffs_ECM_all_4.csv')
 df = df[['annotated_gene_symbol', 'sgRNA', 'diff', 'exp']]
 df.columns = ['gene', 'sgRNA', 'log2fold_diff', 'exp']
+
+# assign unique number to each control sgRNA
+sgRNA_dict = dict(zip(df[df.gene == 'CONTROL'].sgRNA.unique(),
+                      np.arange(len(df[df.gene == 'CONTROL']))))
+
 df_temp = pd.DataFrame()
 for sg, d in df[df.exp.str.contains('fibrin')].groupby(['sgRNA', 'gene']):
     data = {'gene' : sg[1],
@@ -272,7 +411,7 @@ df_ctrl = df_ctrl[['sgRNA', 'log2fold_diff', 'exp']]
 df_ctrl['gene'] = df_ctrl['sgRNA'].map(sgRNA_dict)
 df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
 df_temp = df_temp.append(df_ctrl, ignore_index = True)
-df_collate = df_collate.append(df_temp, ignore_index = True)
+df_collate4 = df_collate4.append(df_temp, ignore_index = True)
 
 df_temp = pd.DataFrame()
 for sg, d in df[df.exp.str.contains('collagen')].groupby(['sgRNA', 'gene']):
@@ -287,12 +426,12 @@ df_ctrl = df_ctrl[['sgRNA', 'log2fold_diff', 'exp']]
 df_ctrl['gene'] = df_ctrl['sgRNA'].map(sgRNA_dict)
 df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
 df_temp = df_temp.append(df_ctrl, ignore_index = True)
-df_collate = df_collate.append(df_temp, ignore_index = True)
+df_collate4 = df_collate4.append(df_temp, ignore_index = True)
 
 
 #######################
 # migration, amoeboid 3D
-df = pd.read_csv(fdir + '20220516_screen_log2fold_diffs_ECM_sgRNA_all_2.csv')
+df = pd.read_csv(fdir + '20220516_screen_log2fold_diffs_ECM_all_4.csv')
 df = df[['annotated_gene_symbol', 'sgRNA', 'diff', 'exp']]
 df.columns = ['gene', 'sgRNA', 'log2fold_diff', 'exp']
 df_temp = pd.DataFrame()
@@ -308,7 +447,7 @@ df_ctrl = df_ctrl[['sgRNA', 'log2fold_diff', 'exp']]
 df_ctrl['gene'] = df_ctrl['sgRNA'].map(sgRNA_dict)
 df_ctrl['gene'] = df_ctrl.agg('CONTROL{0[gene]}'.format, axis=1)
 df_temp = df_temp.append(df_ctrl, ignore_index = True)
-df_collate = df_collate.append(df_temp, ignore_index = True)
+df_collate4 = df_collate4.append(df_temp, ignore_index = True)
 
 # save to disk
-df_collate2.to_csv('../../../data/screen_summary/log2foldchange/collated_screen_data_ECM_2.csv')
+df_collate4.to_csv('../../../data/screen_summary/log2foldchange/collated_screen_data_ECM_4.csv')
