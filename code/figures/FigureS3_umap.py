@@ -93,7 +93,7 @@ celltypes = ['WT', 'WT', 'WT', 'WT', 'WT', 'WT',
 
 
 # Try iterating over different seed values
-fig, ax = plt.subplots(figsize=(5,5))
+fig, ax = plt.subplots(figsize=(4,4))
 
 reducer = umap.UMAP(n_components = 2, random_state=42)
 
