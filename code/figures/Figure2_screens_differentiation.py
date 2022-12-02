@@ -26,14 +26,6 @@ colors = ['#738FC1', '#7AA974', '#D56C55', '#EAC264', '#AB85AC', '#C9D7EE', '#E8
 color = ['#738FC1', '#7AA974', '#CC462F', '#EAC264', '#97459B',
          '#7CD6C4', '#D87E6A', '#BCDB8A', '#BF78C4', '#9653C1']
 
-# colors2 = sns.color_palette("Set2")
-#
-# cell_lines_colors = {'sgCtrl1' : '#B8BABC',
-#   'sgFLCN': colors2[6],
-#   'sgLAMTOR1': colors2[0],
-#   'sgTSC1' :  '#738FC1',
-#   'sgRICTOR' :  '#738FC1'}
-
 colors2 = sns.color_palette("Set2")
 
 cell_lines_colors = {'sgControl' : '#B8BABC',
