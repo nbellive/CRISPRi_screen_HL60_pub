@@ -149,8 +149,11 @@ df_screen = df_screen[['gene','sgRNA','log2fold_diff_mean']]
 
 
 df = pd.read_csv('../../data/screen_followups/20211122_proliferation_curves.csv')
-df_exps = df[df.date.isin(['20111116', '20111121'])]
+print(df.head())
+df_exps = df[df.date.isin([20111116, 20111121])]
+print(df_exps.head())
 df_exps = df_exps[df_exps.DMSO == True]
+
 
 # generate plots
 for gene, d in df_exps[df_exps.date == df_exps.date.max()].groupby('cell_line'):
@@ -165,6 +168,7 @@ for gene, d in df_exps[df_exps.date == df_exps.date.max()].groupby('cell_line'):
         ctrl_value = d.effective_density_1E6_ml.mean()
 
     else:
+        print(gene, ', replicates :', len(d.effective_density_1E6_ml))
         ax2.errorbar(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.mean(),
                     d.effective_density_1E6_ml.mean(),
                     yerr = d.effective_density_1E6_ml.std(),
@@ -242,6 +246,7 @@ for g,d in df_growth[df_growth.DMSO == True][df_growth.day_diff>=4].groupby(['da
     d_temp = df_growth[df_growth.DMSO == True]
     d_temp = d_temp[d_temp.cell_line == g[1]]
     d_temp = d_temp[d_temp.date == 20111120]
+    print(g[1], ' replicates, ', len(d.effective_density_1E6_ml))
     yerr = np.abs((d.effective_density_1E6_ml.mean()/d_temp.effective_density_1E6_ml.mean()))*np.sqrt((d['effective_density_1E6_ml'].std()/d['effective_density_1E6_ml'].mean())**2 + (d_temp['effective_density_1E6_ml'].std()/d_temp['effective_density_1E6_ml'].mean())**2)
     ax3.errorbar(t, d.effective_density_1E6_ml.mean()/d_temp.effective_density_1E6_ml.mean(),
                 yerr = yerr, label = g[1],
