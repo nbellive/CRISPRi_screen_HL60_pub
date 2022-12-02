@@ -91,7 +91,6 @@ ax5 = fig.add_subplot(gs[1,2])
 
 #############################
 
-# df = pd.read_csv('../../data/screen_summary/collated_screen_data_gene_pvalues_20210830.csv')
 df_growth = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
 df_diff = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_differentiation_gene_pvalues.csv')
 
@@ -117,8 +116,17 @@ ax5.set_yticks([])
 ######################
 # scatter - growth
 
-ax2.spines['left'].set_position(('data', 0))
-ax2.spines['bottom'].set_position(('data', 0))
+# ax2.spines['left'].set_position(('data', 0))
+# ax2.spines['bottom'].set_position(('data', 0))
+ax2.hlines(0, -2.4, 0.6, linestyles = '--')
+ax2.vlines(0, -1.9, 1.4, linestyles = '--')
+for ax_ in [ax1, ax2]:
+    ax_.set_xlim(-2.4, 0.6)
+for ax_ in [ax2, ax4, ax5]:
+    ax_.set_ylim(-1.9, 1.4)
+
+ax2.set_xticks([-2,-1,0])
+ax2.set_yticks([-1,0,1])
 
 ax2.scatter(df_compare.log2fold_diff_mean_x, df_compare.log2fold_diff_mean_y,
           edgecolors = 'k', linewidths = 0.4, zorder = 5, label = None,
@@ -170,20 +178,6 @@ ax2.scatter(df_compare[df_compare.gene.isin(['SPI1'])].log2fold_diff_mean_x,
           edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'SPI1',
            color = color_set_3[1], s = 20, alpha = 1)
 
-# color_set_2 = sns.color_palette("husl", 9)
-# for i, gene in enumerate(['CEBPA', 'CEBPE', 'SPI1']):
-#         ax2.scatter(df_compare[df_compare.gene == gene].log2fold_diff_mean_x,
-#                     df_compare[df_compare.gene == gene].log2fold_diff_mean_y,
-#                   edgecolors = 'k', linewidths = 0.4, zorder = 20, label = gene,
-#                    color = color_set_2[i], s = 20, alpha = 1)
-
-# ax2.scatter(df_compare[df_compare.gene.isin(TF_genes)].log2fold_diff_mean_x,
-#             df_compare[df_compare.gene.isin(TF_genes)].log2fold_diff_mean_y,
-#           edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFs (CEBPA, CEBPE, SPI1\nGFI1, GATA2)',
-#            color = color[5], s = 20, alpha = 1)
-
-
-
 
 # Calculate controls
 d_ctrl = df_compare[df_compare.gene.str.contains('CONTROL')].copy().reset_index()
@@ -191,8 +185,6 @@ d_ctrl = df_compare[df_compare.gene.str.contains('CONTROL')].copy().reset_index(
 ax2.scatter(d_ctrl.log2fold_diff_mean_x, d_ctrl.log2fold_diff_mean_y,
            edgecolors = 'k', linewidths = 0.6, alpha = 1, zorder=10,
             color = '#B8BABC', label = 'controls', s = 20)
-
-
 
 
 ######################
@@ -214,9 +206,15 @@ ax3.set_xticks([])
 ax3.set_yticks([])
 
 
+# ax4.spines['left'].set_position(('data', 0))
+# ax4.spines['bottom'].set_position(('data', 0))
+ax4.hlines(0, -2.4, 1.4, linestyles = '--')
+ax4.vlines(0, -1.9, 1.4, linestyles = '--')
+for ax_ in [ax3, ax4]:
+    ax_.set_xlim(-2.4, 1.4)
 
-ax4.spines['left'].set_position(('data', 0))
-ax4.spines['bottom'].set_position(('data', 0))
+ax4.set_xticks([-2,-1,0, 1])
+ax4.set_yticks([-1,0,1])
 
 ax4.scatter(df_compare.log2fold_diff_mean_x, df_compare.log2fold_diff_mean_y,
           edgecolors = 'k', linewidths = 0.4, zorder = 5,
@@ -268,16 +266,6 @@ ax4.scatter(df_compare[df_compare.gene.isin(['SPI1'])].log2fold_diff_mean_x,
           edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'SPI1',
            color = color_set_3[1], s = 20, alpha = 1)
 
-# for i, gene in enumerate(['CEBPA', 'CEBPE', 'SPI1']):
-#         ax4.scatter(df_compare[df_compare.gene == gene].log2fold_diff_mean_x,
-#                     df_compare[df_compare.gene == gene].log2fold_diff_mean_y,
-#                   edgecolors = 'k', linewidths = 0.4, zorder = 20, label = gene,
-#                    color = color_set_2[i], s = 20, alpha = 1)
-#
-# ax4.scatter(df_compare[df_compare.gene.isin(TF_genes)].log2fold_diff_mean_x,
-#             df_compare[df_compare.gene.isin(TF_genes)].log2fold_diff_mean_y,
-#           edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFs',
-#            color = color[5], s = 20, alpha = 1)
 
 # # Calculate controls
 d_ctrl = df_compare[df_compare.gene.str.contains('CONTROL')].copy().reset_index()
