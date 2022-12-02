@@ -96,39 +96,42 @@ ax1.tick_params(length=8)
 df_mig = pd.read_csv('../../data/migration_assays/migration_assays_summary.csv')
 
 df_temp = df_mig[df_mig.format == 'ECM']
-ax2.bar(7, df_temp.frac_migrated.mean(),
+ax2.bar(1, df_temp.frac_migrated.mean(),
         yerr = df_temp.frac_migrated.std(),  color = '#EAC264')
+print('ECM, N = ',len(df_temp.frac_migrated))
 
 df_temp = df_mig[df_mig.FBS_grad == False]
 df_temp = df_temp[df_temp.fMLP_nM == 0]
 df_temp = df_temp[df_temp.time_point_hr <= 2]
 df_temp = df_temp[df_temp.time_point_hr > 1.0]
-ax2.bar(1, df_temp.frac_migrated.mean(),
+ax2.bar(3, df_temp.frac_migrated.mean(),
         yerr = df_temp.frac_migrated.std(), color = '#C1D1BB')
-
+print('track, 2hr, uniform hiFBS, N = ',len(df_temp.frac_migrated))
 
 df_temp = df_mig[df_mig.FBS_grad == False]
 df_temp = df_temp[df_temp.fMLP_nM == 0]
 df_temp = df_temp[df_temp.time_point_hr > 2]
-ax2.bar(2, df_temp.frac_migrated.mean(),
+ax2.bar(4, df_temp.frac_migrated.mean(),
         yerr = df_temp.frac_migrated.std(), color = '#C1D1BB')
+print('track, 6hr, uniform hiFBS, N = ',len(df_temp.frac_migrated))
 
 df_temp = df_mig[df_mig['FBS_%'] == 10]
 df_temp = df_temp[df_temp.FBS_grad == True]
 df_temp = df_temp[df_temp.time_point_hr == 1.5]
 df_temp = df_temp[df_temp.date >= 20201120]
 
-ax2.bar(4, df_temp.frac_migrated.mean(),
+ax2.bar(6, df_temp.frac_migrated.mean(),
         yerr = df_temp.frac_migrated.std(), color = '#85A879')
+print('track, 2hr, gradient hiFBS, N = ',len(df_temp.frac_migrated))
 
 df_temp = df_mig[df_mig['FBS_%'] == 10]
 df_temp = df_temp[df_temp.FBS_grad == True]
 df_temp = df_temp[df_temp.time_point_hr == 6]
 df_temp = df_temp[df_temp.date >= 20201120]
 
-ax2.bar(5, df_temp.frac_migrated.mean(),
+ax2.bar(7, df_temp.frac_migrated.mean(),
         yerr = df_temp.frac_migrated.std(), color = '#85A879')
-
+print('track, 6hr, gradient hiFBS, N = ',len(df_temp.frac_migrated))
 
 ax2.set_xlabel('time [hour]', fontsize=11)
 ax2.set_ylabel('fraction of cells that\nsuccessfully migrate', fontsize=11)
