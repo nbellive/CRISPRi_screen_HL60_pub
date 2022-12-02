@@ -202,7 +202,7 @@ pearson_gene_dict_3D = {'Control1': 3,
 # we will be comparing the screen data to average migration speed in 3D.
 # I've tabulated the average speed of cells tracked during 3D migration and
 # can load that data.
-files_bay_3d = glob.glob('../../data/processed_tracking_bayesian/2022*_3D_filtered_xyzCorr_avg*all*')
+files_bay_3d = glob.glob('../../data/processed_tracking_bayesian/2022*_3D_filtered_avg*all*')
 
 df_3D = pd.DataFrame()
 
@@ -218,7 +218,7 @@ df_3D =  df_3D[df_3D.concentration == '0.75mgml']
 # Load in ECM screen data - here is the mean log fold values
 # df_screen3D = pd.read_csv('../../data/screen_summary/final/20220516_screen_log2fold_diffs_ECM_truncate_sgRNA_means.csv')
 # df_screen3D = df_screen3D.drop_duplicates()
-df_screen3D = pd.read_csv('../../data/screen_summary/temp/collated_screen_data_ECM_3.csv')
+df_screen3D = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data_ECM_3.csv')
 df_screen3D = df_screen3D[df_screen3D.sgRNA.isin(cell_lines_sg)]
 
 # Load in ECM screen data - here is the individual log fold values across all experiments
@@ -415,7 +415,7 @@ ax_Ci.yaxis.set_label_coords(0.0, 0.6)
 #                 ignore_index = True)
 
 df_0 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_tracketchcombined_Nograd_gene_pvalues.csv')
-df_ECM = pd.read_csv('../../data/screen_summary/temp/20211222_screen_log2fold_diffs_ECM_gene_pvalues_3.csv')
+df_ECM = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_ECM_gene_pvalues_3.csv')
 
 df_compare = pd.merge(df_ECM,
                       df_0,
@@ -459,7 +459,7 @@ ax_git2_p   = fig3.add_subplot(gs3[1])
 
 
 
-files_bay_2d = glob.glob('../../data/processed_tracking_bayesian/*_2D_filtered_cellAvg*all*')
+files_bay_2d = glob.glob('../../data/processed_tracking_bayesian/*_2D_filtered_avg*all*')
 
 df_Bayes_2d = pd.DataFrame()
 for f in files_bay_2d:
