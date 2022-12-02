@@ -66,19 +66,21 @@ ax_3d = fig.add_subplot(gs[0,1])
 ax_2d_p = fig.add_subplot(gs[1,0])
 ax_3d_p = fig.add_subplot(gs[1,1])
 
-files_bay_2d = glob.glob('../../data/processed_tracking_bayesian/20220328_2D_filtered_avg*all*')
+# files_bay_2d = glob.glob('../../data/processed_tracking_bayesian/20220328_2D_filtered_avg*all*')
+files_bay_2d = glob.glob('../../data/processed_tracking_bayesian/20220920_2D_filtered_avg*all*')
 
 df_Bayes_2d = pd.DataFrame()
 for f in files_bay_2d:
     df_temp = pd.read_csv(f)
     df_Bayes_2d = df_Bayes_2d.append(df_temp, ignore_index = True)
+print(df_Bayes_2d.head())
 df_Bayes_2d = df_Bayes_2d[['average_persistence', 'cell', 'celltype', 'concentration',
                 'date', 'material', 'position', 'speed ($\mu$m/sec)', 'trial']]
 df_Bayes_2d.columns = ['average_persistence', 'cell', 'celltype', 'concentration',
                 'date', 'material', 'position', 'average_speed', 'trial']
 df_Bayes_2d = df_Bayes_2d[df_Bayes_2d.celltype.isin(['HL-60KW_SC575_sgControl1', 'HL-60KW_SC575_sgFLCN', 'HL-60KW_SC575_sgLAMTOR1'])]
 
-files_bay_3d = glob.glob('../../data/processed_tracking_bayesian/20220328_3D_filtered_*avg*all*')
+files_bay_3d = glob.glob('../../data/processed_tracking_bayesian/20220920_3D_filtered_*avg*all*')
 
 df_Bayes_3d = pd.DataFrame()
 for f in files_bay_3d:
