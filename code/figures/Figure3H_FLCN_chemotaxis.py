@@ -34,7 +34,7 @@ def angle_atan2(v1, v2):
     return math.atan2(v2[1],v2[0]) - math.atan2(v1[1],v1[0])
 
 
-# https://stackoverflow.com/questions/7008608/scipy-io-loadmat-nested-structures-i-e-dictionaries
+# Function from https://stackoverflow.com/questions/7008608/scipy-io-loadmat-nested-structures-i-e-dictionaries
 def loadmat(filename):
     '''
     this function should be called instead of direct spio.loadmat
@@ -94,7 +94,7 @@ cell_lines_colors = {'sgControl' : '#B8BABC',
 fig = plt.figure(figsize=(3,4))
 gs = GridSpec(nrows=2, ncols=3, height_ratios=[0.75, 1], width_ratios=[1, 1, 1])
 
-ax_Bi    = fig.add_subplot(gs[0,:2], projection='polar')
+# ax_Bi    = fig.add_subplot(gs[0,:2], projection='polar')
 
 ax_Fi    = fig.add_subplot(gs[1,0])
 ax_Fii   = fig.add_subplot(gs[1,1])
@@ -114,149 +114,149 @@ for f in files_:
 # location where intensity of fMLP is at maximum
 ind = [512, 512]
 
-# sgControl line
-angle_test = []
-angle_test_2 = []
-for well, df in df_track[df_track.celltype == 'sgCONTROL-NEW'].groupby(['date','well']):
-    df = df[df.frame >= 15]
-#     df = df[df.frame >= 30]
-    num_cells = len(df.cell.unique())
-    vel = []
-    dx = []
-    dy = []
-    dx_grad = []
-    dy_grad = []
+# # sgControl line
+# angle_test = []
+# angle_test_2 = []
+# for well, df in df_track[df_track.celltype == 'sgCONTROL-NEW'].groupby(['date','well']):
+#     df = df[df.frame >= 15]
+# #     df = df[df.frame >= 30]
+#     num_cells = len(df.cell.unique())
+#     vel = []
+#     dx = []
+#     dy = []
+#     dx_grad = []
+#     dy_grad = []
+#
+#
+#     for i in df.cell.unique():
+#         data_ = df[df.cell==i]
+#
+#         ###################################################
+#         ########## first and last. frame (dx,dy) ########
+#         ###################################################
+#         dx_ = data_[data_.frame==data_.frame.max()].x.values - \
+#                 data_[data_.frame==data_.frame.min()].x.values
+#         dx = np.append(dx,dx_)
+#
+#         dy_ = data_[data_.frame==data_.frame.max()].y.values - \
+#                 data_[data_.frame==data_.frame.min()].y.values
+#         dy = np.append(dy,dy_)
+#
+#         ###################################################
+#         ########## first and last. frame (dx,dy) ########
+#         ###################################################
+#         dx_2 = ind[1] - \
+#                 data_[data_.frame==data_.frame.min()].x.values
+#
+#         dy_2 = ind[0] - \
+#                 data_[data_.frame==data_.frame.min()].y.values
+#
+#         angle_ = angle_fcn([dx_,dy_], [dx_2,dy_2])
+#         angle_test = np.append(angle_test, angle_)
+#         angle_2 = angle_atan2([dx_,dy_], [dx_2,dy_2])
+#         angle_test_2 = np.append(angle_test_2, angle_2)
+#
+# # # plot rose plot
+#
+# angle = angle_test_2 * 180 / np.pi
+# angle_p =  angle[angle>=0]
+# angle_m =  angle[angle<=0]
+# angle = np.append(angle_p,angle_m+360)
+#
+# angle_p =  angle[angle<=180]
+# angle_m =  angle[angle>=180]
+# angle = np.append(angle_p,360-angle_m)
+#
+# degrees = angle #+ 180# np.random.randint(0, 360, size=200)
+# radians = np.deg2rad(angle_test)
+#
+# bin_size = 30
+# a , b=np.histogram(degrees, bins=np.arange(0, 360+bin_size, bin_size))
+# centers = np.deg2rad(np.ediff1d(b)//2 + b[:-1])
+#
+#
+# ax_Bi.bar(centers, a, width=np.deg2rad(bin_size), bottom=0.0,
+#         color='#B8BABC', edgecolor='k', linewidth = 0.5)#, zorder = 10)
+# ax_Bi.set_theta_zero_location("E")
+# ax_Bi.set_theta_direction(1)
+# ax_Bi.set_yticklabels([])
+# # ax_Bi.set_rmax(100)
+# # ax_Bi.grid(False)
+# ax_Bi.tick_params(labelsize=14)
 
-
-    for i in df.cell.unique():
-        data_ = df[df.cell==i]
-
-        ###################################################
-        ########## first and last. frame (dx,dy) ########
-        ###################################################
-        dx_ = data_[data_.frame==data_.frame.max()].x.values - \
-                data_[data_.frame==data_.frame.min()].x.values
-        dx = np.append(dx,dx_)
-
-        dy_ = data_[data_.frame==data_.frame.max()].y.values - \
-                data_[data_.frame==data_.frame.min()].y.values
-        dy = np.append(dy,dy_)
-
-        ###################################################
-        ########## first and last. frame (dx,dy) ########
-        ###################################################
-        dx_2 = ind[1] - \
-                data_[data_.frame==data_.frame.min()].x.values
-
-        dy_2 = ind[0] - \
-                data_[data_.frame==data_.frame.min()].y.values
-
-        angle_ = angle_fcn([dx_,dy_], [dx_2,dy_2])
-        angle_test = np.append(angle_test, angle_)
-        angle_2 = angle_atan2([dx_,dy_], [dx_2,dy_2])
-        angle_test_2 = np.append(angle_test_2, angle_2)
-
-# # plot rose plot
-
-angle = angle_test_2 * 180 / np.pi
-angle_p =  angle[angle>=0]
-angle_m =  angle[angle<=0]
-angle = np.append(angle_p,angle_m+360)
-
-angle_p =  angle[angle<=180]
-angle_m =  angle[angle>=180]
-angle = np.append(angle_p,360-angle_m)
-
-degrees = angle #+ 180# np.random.randint(0, 360, size=200)
-radians = np.deg2rad(angle_test)
-
-bin_size = 30
-a , b=np.histogram(degrees, bins=np.arange(0, 360+bin_size, bin_size))
-centers = np.deg2rad(np.ediff1d(b)//2 + b[:-1])
-
-
-ax_Bi.bar(centers, a, width=np.deg2rad(bin_size), bottom=0.0,
-        color='#B8BABC', edgecolor='k', linewidth = 0.5)#, zorder = 10)
-ax_Bi.set_theta_zero_location("E")
-ax_Bi.set_theta_direction(1)
-ax_Bi.set_yticklabels([])
-# ax_Bi.set_rmax(100)
-# ax_Bi.grid(False)
-ax_Bi.tick_params(labelsize=14)
-
-###########################
-# FLCN
-
-angle_test = []
-angle_test_2 = []
-for well, df in df_track[df_track.celltype == 'sgFLCN'].groupby(['date','well']):
-    df = df[df.frame >= 15]
-    num_cells = len(df.cell.unique())
-    vel = []
-    dx = []
-    dy = []
-    dx_grad = []
-    dy_grad = []
-
-
-    for i in df.cell.unique():
-        data_ = df[df.cell==i]
-
-        ###################################################
-        ########## first and last. frame (dx,dy) ########
-        ###################################################
-        dx_ = data_[data_.frame==data_.frame.max()].x.values - \
-                data_[data_.frame==data_.frame.min()].x.values
-        dx = np.append(dx,dx_)
-
-        dy_ = data_[data_.frame==data_.frame.max()].y.values - \
-                data_[data_.frame==data_.frame.min()].y.values
-        dy = np.append(dy,dy_)
-
-        ###################################################
-        ########## first and last. frame (dx,dy) ########
-        ###################################################
-        dx_2 = ind[1] - \
-                data_[data_.frame==data_.frame.min()].x.values
-#         dx_grad = np.append(dx_grad,dx_2)
-
-        dy_2 = ind[0] - \
-                data_[data_.frame==data_.frame.min()].y.values
-#         dy_grad = np.append(dy_grad,dy_2)
-
-        angle_ = angle_fcn([dx_,dy_], [dx_2,dy_2])
-        angle_test = np.append(angle_test, angle_)
-        angle_2 = angle_atan2([dx_,dy_], [dx_2,dy_2])
-        angle_test_2 = np.append(angle_test_2, angle_2)
-
-# deg_sym = np.rad2deg(angle_test)
-
-angle = angle_test_2 * 180 / np.pi
-angle_p =  angle[angle>=0]
-angle_m =  angle[angle<=0]
-angle = np.append(angle_p,angle_m+360)
-
-angle_p =  angle[angle<=180]
-angle_m =  angle[angle>=180]
-angle = np.append(angle_p,360-angle_m)
-
-degrees = angle #+ 180# np.random.randint(0, 360, size=200)
-radians = np.deg2rad(angle_test)
-
-bin_size = 30
-a , b=np.histogram(degrees, bins=np.arange(0, 360+bin_size, bin_size))
-
-centers = np.deg2rad(np.ediff1d(b)//2 + b[:-1])
-
-ax_Bi.bar(centers[::-1], a, width=np.deg2rad(bin_size),  linewidth = 0.5, bottom=0.0,
-            color = cell_lines_colors['sgFLCN'], edgecolor='k')#, zorder = 10)
-ax_Bi.set_theta_zero_location("E")
-ax_Bi.set_theta_direction(1)
-ax_Bi.set_yticklabels([])
-# ax_Bii.grid(False)
-ax_Bi.tick_params(labelsize=10)
-
-
+# ###########################
+# # FLCN
+#
+# angle_test = []
+# angle_test_2 = []
+# for well, df in df_track[df_track.celltype == 'sgFLCN'].groupby(['date','well']):
+#     df = df[df.frame >= 15]
+#     num_cells = len(df.cell.unique())
+#     vel = []
+#     dx = []
+#     dy = []
+#     dx_grad = []
+#     dy_grad = []
+#
+#
+#     for i in df.cell.unique():
+#         data_ = df[df.cell==i]
+#
+#         ###################################################
+#         ########## first and last. frame (dx,dy) ########
+#         ###################################################
+#         dx_ = data_[data_.frame==data_.frame.max()].x.values - \
+#                 data_[data_.frame==data_.frame.min()].x.values
+#         dx = np.append(dx,dx_)
+#
+#         dy_ = data_[data_.frame==data_.frame.max()].y.values - \
+#                 data_[data_.frame==data_.frame.min()].y.values
+#         dy = np.append(dy,dy_)
+#
+#         ###################################################
+#         ########## first and last. frame (dx,dy) ########
+#         ###################################################
+#         dx_2 = ind[1] - \
+#                 data_[data_.frame==data_.frame.min()].x.values
+# #         dx_grad = np.append(dx_grad,dx_2)
+#
+#         dy_2 = ind[0] - \
+#                 data_[data_.frame==data_.frame.min()].y.values
+# #         dy_grad = np.append(dy_grad,dy_2)
+#
+#         angle_ = angle_fcn([dx_,dy_], [dx_2,dy_2])
+#         angle_test = np.append(angle_test, angle_)
+#         angle_2 = angle_atan2([dx_,dy_], [dx_2,dy_2])
+#         angle_test_2 = np.append(angle_test_2, angle_2)
+#
+# # deg_sym = np.rad2deg(angle_test)
+#
+# angle = angle_test_2 * 180 / np.pi
+# angle_p =  angle[angle>=0]
+# angle_m =  angle[angle<=0]
+# angle = np.append(angle_p,angle_m+360)
+#
+# angle_p =  angle[angle<=180]
+# angle_m =  angle[angle>=180]
+# angle = np.append(angle_p,360-angle_m)
+#
+# degrees = angle #+ 180# np.random.randint(0, 360, size=200)
+# radians = np.deg2rad(angle_test)
+#
+# bin_size = 30
+# a , b=np.histogram(degrees, bins=np.arange(0, 360+bin_size, bin_size))
+#
+# centers = np.deg2rad(np.ediff1d(b)//2 + b[:-1])
+#
+# ax_Bi.bar(centers[::-1], a, width=np.deg2rad(bin_size),  linewidth = 0.5, bottom=0.0,
+#             color = cell_lines_colors['sgFLCN'], edgecolor='k')#, zorder = 10)
+# ax_Bi.set_theta_zero_location("E")
+# ax_Bi.set_theta_direction(1)
+# ax_Bi.set_yticklabels([])
+# # ax_Bii.grid(False)
+# ax_Bi.tick_params(labelsize=10)
+#
+#
 
 
 ###########################
@@ -274,6 +274,7 @@ for f in files:
     df_temp['date'] = f.split('/')[-2][:10]
     df = df.append(df_temp, ignore_index = True)
 
+# print(df.head())
 ###########################
 # s0 - basal speed
 ###########################
