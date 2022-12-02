@@ -462,5 +462,5 @@ for i, data in df_2d_filtered.groupby(['celltype']):
             df_Bayesian2 = df_Bayesian2.append(data_Bayesian2, ignore_index=True)
 
     fname_ = '_'.join([i, '.csv'])
-    df_Bayesian.to_csv('../../../data/processed_tracking_bayesian/20220920_2D_filtered_cellAvg_'+fname_)
+    df_Bayesian.to_csv('../../../data/processed_tracking_bayesian/20220920_2D_filtered_avg_'+fname_)
     df_Bayesian2.to_csv('../../../data/processed_tracking_bayesian/20220920_2D_filtered_'+fname_)
