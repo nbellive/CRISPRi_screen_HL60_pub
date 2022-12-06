@@ -117,9 +117,9 @@ sns.kdeplot(sample["APC-Cy7-A_l"], ax = ax0, color = 'grey',
 # pHR-SFFV-dCas9-BFP-KRAB (Addgene plasmid #46911)
 ###############################
 filelist = \
-['../../data/flow_cytometry/20200309_CD4_kd/KW-dCas9-BFP-KRAB_antiCD4.fcs',
-'../../data/flow_cytometry/20200309_CD4_kd/KW-dCas9-BFP-KRAB_gCD4_antiCD4.fcs',
-'../../data/flow_cytometry/20200309_CD4_kd/KW-dCas9-BFP-KRAB_gCD4_antiCTRL.fcs']
+['../../data/flow_cytometry/20200309_CD4_knockdown/KW-dCas9-BFP-KRAB_antiCD4.fcs',
+'../../data/flow_cytometry/20200309_CD4_knockdown/KW-dCas9-BFP-KRAB_gCD4_antiCD4.fcs',
+'../../data/flow_cytometry/20200309_CD4_knockdown/KW-dCas9-BFP-KRAB_gCD4_antiCTRL.fcs']
 
 sample = FCMeasurement(ID='ctrl', datafile=filelist[0])
 sample = sample.data
@@ -224,9 +224,9 @@ sns.kdeplot(sample["APC-Cy7-A_l"], ax = ax2, color = 'grey',
 ###############################
 
 filelist = \
-['../../data/flow_cytometry/20200309_CD4_kd/KW-NDi-clone8_0umDox_antiCD4.fcs',
-'../../data/flow_cytometry/20200309_CD4_kd/KW-NDi-clone8_gCD4_2umDox_antiCD4.fcs',
-'../../data/flow_cytometry/20200309_CD4_kd/KW-NDi-clone8_gCD4_2umDox_antiCTRL.fcs',
+['../../data/flow_cytometry/20200309_CD4_knockdown/KW-NDi-clone8_0umDox_antiCD4.fcs',
+'../../data/flow_cytometry/20200309_CD4_knockdown/KW-NDi-clone8_gCD4_2umDox_antiCD4.fcs',
+'../../data/flow_cytometry/20200309_CD4_knockdown/KW-NDi-clone8_gCD4_2umDox_antiCTRL.fcs',
 ]
 sample = FCMeasurement(ID='ctrl', datafile=filelist[0])
 sample = sample.data
