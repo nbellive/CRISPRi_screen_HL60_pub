@@ -20,9 +20,9 @@ colors = ['#738FC1', '#7AA974', '#D56C55', '#EAC264', '#AB85AC', '#C9D7EE', '#E8
 #############################################
 # Load in Sanson et al. 2018 data
 #############################################
-files = glob.glob('../../../data/sanson_2018/*setA*')
-df_Sanson_raw = pd.read_csv(files[1])
-df_Sanson_ann = pd.read_csv(files[0])
+files = glob.glob('../../../data/sanson_2018/sanson_2018_setA_rawreads.csv')
+df_Sanson_raw = pd.read_csv(glob.glob('../../data/sanson_2018/sanson_2018_setA_rawreads.csv')[0])
+df_Sanson_ann = pd.read_csv(glob.glob('../../data/sanson_2018/sanson_2018_setA_sgRNA_annotations.csv')[0])
 
 # Make merged df with Sanson data and annotations
 df_Sanson = pd.merge(df_Sanson_ann, df_Sanson_raw, on = 'sgRNA')
@@ -51,9 +51,10 @@ for g, d in df_Sanson.groupby('gene'):
 #############################################
 # Load in my HL-60 data
 #############################################
-df = pd.read_csv('../../../data/screen_summary/final/collated_screen_data_gene_pvalues_20210830.csv')
-df = df[['exp', 'gene', 'log2fold_diff_mean', 'pvalue']]
-df = df[df.exp == 'growth']
+# df = pd.read_csv('../../../data/screen_summary/final/collated_screen_data_gene_pvalues_20210830.csv')
+# df = df[['exp', 'gene', 'log2fold_diff_mean', 'pvalue']]
+# df = df[df.exp == 'growth']
+df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
 df = df[['gene', 'log2fold_diff_mean']]
 df.columns = ['gene', 'HL60_diff_mean']
 
@@ -131,4 +132,4 @@ ax2.yaxis.set_label_coords(-0.05,0.5)
 
 plt.tight_layout()
 
-fig.savefig('../../../figures/20220705_figureS1_prolif.pdf', bbox_inches='tight')
+fig.savefig('../../figures/FigS2_prolif.pdf', bbox_inches='tight')
