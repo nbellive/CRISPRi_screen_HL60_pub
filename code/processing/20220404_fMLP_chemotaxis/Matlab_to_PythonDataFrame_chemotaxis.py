@@ -13,7 +13,6 @@ from skimage.filters import rank
 from scipy.interpolate import make_interp_spline, BSpline
 from scipy import interpolate
 
-import seaborn as sns
 import scipy.io as spio
 
 import math
