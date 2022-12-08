@@ -51,9 +51,6 @@ for g, d in df_Sanson.groupby('gene'):
 #############################################
 # Load in my HL-60 data
 #############################################
-# df = pd.read_csv('../../../data/screen_summary/final/collated_screen_data_gene_pvalues_20210830.csv')
-# df = df[['exp', 'gene', 'log2fold_diff_mean', 'pvalue']]
-# df = df[df.exp == 'growth']
 df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
 df = df[['gene', 'log2fold_diff_mean']]
 df.columns = ['gene', 'HL60_diff_mean']
@@ -75,7 +72,9 @@ A375_marg = fig.add_subplot(gs[0,1])
 
 
 ax1.scatter(df_comb.HT29_diff_mean, df_comb.HL60_diff_mean,
-             alpha = 0.15, s = 5, zorder=10)
+          edgecolors = 'k', linewidths = 0.4, zorder = 5,
+           color = '#738FC1', s = 10, alpha = 0.2)
+             # alpha = 0.15, s = 5, zorder=10)
 ax1.set_xlabel(r'normalized log$_2$ fold-change'
                  '\n(HT29 cell line)', fontsize = 12)
 ax1.set_ylabel(r'normalized log$_2$ fold-change'
@@ -84,10 +83,12 @@ ax1.text(x = 0.25, y = -2, s = 'Pearson\ncorrelation\n' + r'$\rho$ = '
            + str(np.round(stats.pearsonr(df_comb.HT29_diff_mean,
                                          df_comb.HL60_diff_mean)[0],2)),
         fontsize = 12)
-ax1.set_xlim(-3.2,2)
+ax1.set_xlim(-3.5,2)
 ax1.set_ylim(-2.3, 0.5)
-ax1.spines['left'].set_position(('data', 0))
-ax1.spines['bottom'].set_position(('data', 0))
+ax1.hlines(0, -3.6, 2, linestyles = '--')
+ax1.vlines(0, -2.3,0.5, linestyles = '--')
+# ax1.spines['left'].set_position(('data', 0))
+# ax1.spines['bottom'].set_position(('data', 0))
 
 
 sns.distplot(df_comb.HL60_diff_mean, hist = False, kde = True,
@@ -104,19 +105,24 @@ sns.distplot(df_comb.A375_diff_mean, hist = False, kde = True,
 
 
 ax2.scatter(df_comb.A375_diff_mean, df_comb.HL60_diff_mean,
-             alpha = 0.15, s = 5, zorder=10)
+          edgecolors = 'k', linewidths = 0.4, zorder = 5,
+           color = '#738FC1', s = 10, alpha = 0.2)
+             # alpha = 0.15, s = 5, zorder=10)
+
+
 ax2.set_xlabel(r'normalized log$_2$ fold-change'
                  '\n(A375 cell line)', fontsize = 12)
 ax2.text(x = 0.25, y = -2, s = 'Pearson\ncorrelation\n' + r'$\rho$ = '
            + str(np.round(stats.pearsonr(df_comb.A375_diff_mean,
                                          df_comb.HL60_diff_mean)[0],2)),
         fontsize = 12)
-ax2.set_xlim(-3.2,2)
+ax2.set_xlim(-3.5,2)
 ax2.set_ylim(-2.3,0.5)
 ax2.set_yticklabels([])
-
-ax2.spines['left'].set_position(('data', 0))
-ax2.spines['bottom'].set_position(('data', 0))
+ax2.hlines(0, -3.6, 2, linestyles = '--')
+ax2.vlines(0, -2.3,0.5, linestyles = '--')
+# ax2.spines['left'].set_position(('data', 0))
+# ax2.spines['bottom'].set_position(('data', 0))
 
 for  ax_ in [HL60_marg, HT29_marg, A375_marg]:
     ax_.get_xaxis().set_visible(False)
@@ -124,11 +130,16 @@ for  ax_ in [HL60_marg, HT29_marg, A375_marg]:
     ax_.set_xticklabels([])
     ax_.set_yticklabels([])
 
-ax1.xaxis.set_label_coords(0.5,-0.05)
-ax1.yaxis.set_label_coords(-0.05,0.5)
+for  ax_ in [HL60_marg]:
+    ax_.set_ylim(-2.3,0.5)
+for  ax_ in [HT29_marg, A375_marg]:
+    ax_.set_xlim(-3.5,2)
 
-ax2.xaxis.set_label_coords(0.5,-0.05)
-ax2.yaxis.set_label_coords(-0.05,0.5)
+# ax1.xaxis.set_label_coords(0.5,-0.05)
+# ax1.yaxis.set_label_coords(-0.05,0.5)
+#
+# ax2.xaxis.set_label_coords(0.5,-0.05)
+# ax2.yaxis.set_label_coords(-0.05,0.5)
 
 plt.tight_layout()
 
