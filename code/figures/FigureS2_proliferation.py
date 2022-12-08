@@ -97,12 +97,12 @@ A375_marg = fig.add_subplot(gs[0,1])
 
 
 ax1.scatter(df_comb.HT29_diff_mean, df_comb.HL60_diff_mean,
-          edgecolors = 'k', linewidths = 0.4, zorder = 5,
-           color = '#738FC1', s = 10, alpha = 0.2)
+          edgecolors = 'k', linewidths = 0.2, zorder = 5,
+           color = '#5C82BF', s = 10, alpha = 0.2) #'#738FC1'
              # alpha = 0.15, s = 5, zorder=10)
 print(np.max(df_comb.HL60_diff_mean))
 ax1.scatter(df_comb_controls.HT29_diff_mean, df_comb_controls.HL60_diff_mean,
-          edgecolors = 'k', linewidths = 0.4, zorder = 5,
+          edgecolors = 'k', linewidths = 0.2, zorder = 5,
            color = '#B8BABC', s = 10, alpha = 0.8)
 
 ax1.set_xlabel(r'normalized log$_2$ fold-change'
@@ -133,12 +133,12 @@ sns.distplot(df_comb.A375_diff_mean, hist = False, kde = True,
 
 
 ax2.scatter(df_comb.A375_diff_mean, df_comb.HL60_diff_mean,
-          edgecolors = 'k', linewidths = 0.4, zorder = 5,
-           color = '#738FC1', s = 10, alpha = 0.2)
+          edgecolors = 'k', linewidths = 0.2, zorder = 5,
+           color = '#5C82BF', s = 10, alpha = 0.2)
              # alpha = 0.15, s = 5, zorder=10)
 
 ax2.scatter(df_comb_controls.A375_diff_mean, df_comb_controls.HL60_diff_mean,
-          edgecolors = 'k', linewidths = 0.4, zorder = 5,
+          edgecolors = 'k', linewidths = 0.2, zorder = 5,
            color = '#B8BABC', s = 10, alpha = 0.8)
 
 ax2.set_xlabel(r'normalized log$_2$ fold-change'
