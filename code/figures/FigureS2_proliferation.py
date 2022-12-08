@@ -59,7 +59,6 @@ for sg, d in df_Sanson[df_Sanson.gene == 'CONTROL'].groupby('sgRNA'):
 #############################################
 # Load in my HL-60 data
 #############################################
-# df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
 df = pd.read_csv('../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_growth_sgRNA_means.csv')
 
 df = df[['gene', 'log2fold_diff_mean', 'sgRNA']]
@@ -118,8 +117,6 @@ ax1.set_xlim(-3.5,2)
 ax1.set_ylim(-2.3, 0.5)
 ax1.hlines(0, -3.6, 2, linestyles = '--')
 ax1.vlines(0, -2.3,0.5, linestyles = '--')
-# ax1.spines['left'].set_position(('data', 0))
-# ax1.spines['bottom'].set_position(('data', 0))
 
 
 sns.distplot(df_comb.HL60_diff_mean, hist = False, kde = True,
@@ -169,11 +166,6 @@ for  ax_ in [HL60_marg]:
 for  ax_ in [HT29_marg, A375_marg]:
     ax_.set_xlim(-3.5,2)
 
-# ax1.xaxis.set_label_coords(0.5,-0.05)
-# ax1.yaxis.set_label_coords(-0.05,0.5)
-#
-# ax2.xaxis.set_label_coords(0.5,-0.05)
-# ax2.yaxis.set_label_coords(-0.05,0.5)
 
 plt.tight_layout()
 
