@@ -48,17 +48,43 @@ for g, d in df_Sanson.groupby('gene'):
                 'A375_diff_mean': d.A375_diff_mean.mean()}
     df_Sanson_avg = df_Sanson_avg.append(data_list, ignore_index = True)
 
+# Control sgRNAs
+df_Sanson_controls = pd.DataFrame()
+for sg, d in df_Sanson[df_Sanson.gene == 'CONTROL'].groupby('sgRNA'):
+    data_list = {'sgRNA' : sg,
+                'HT29_diff_mean': d.HT29_diff_mean.mean(),
+                'A375_diff_mean': d.A375_diff_mean.mean()}
+    df_Sanson_controls = df_Sanson_controls.append(data_list, ignore_index = True)
+
 #############################################
 # Load in my HL-60 data
 #############################################
-df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
-df = df[['gene', 'log2fold_diff_mean']]
-df.columns = ['gene', 'HL60_diff_mean']
+# df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
+df = pd.read_csv('../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_growth_sgRNA_means.csv')
+
+df = df[['gene', 'log2fold_diff_mean', 'sgRNA']]
+# df.columns = ['gene', 'HL60_diff_mean', 'sgRNA']
+df = df[df.gene != 'CONTROL']
+
+# mean across sgRNA (3 per gene, Set A)
+df_avg = pd.DataFrame()
+for g, d in df.groupby('gene'):
+    data_list = {'gene' : g,
+                'HL60_diff_mean': d.log2fold_diff_mean.mean()}
+    df_avg = df_avg.append(data_list, ignore_index = True)
+
+# control sgRNAs
+df_controls = pd.read_csv('../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_growth_sgRNA_means.csv')
+
+df_controls = df_controls[['gene', 'log2fold_diff_mean', 'sgRNA']]
+df_controls.columns = ['gene', 'HL60_diff_mean', 'sgRNA']
+df_controls = df_controls[df_controls.gene == 'CONTROL']
 
 #############################################
 # Generate combined dataframe with both data sources
 #############################################
-df_comb = pd.merge(df, df_Sanson_avg, on = 'gene')
+df_comb = pd.merge(df_avg, df_Sanson_avg, on = 'gene')
+df_comb_controls = pd.merge(df_controls, df_Sanson_controls, on = 'sgRNA')
 
 fig = plt.figure(figsize=(8,5))
 
@@ -75,6 +101,11 @@ ax1.scatter(df_comb.HT29_diff_mean, df_comb.HL60_diff_mean,
           edgecolors = 'k', linewidths = 0.4, zorder = 5,
            color = '#738FC1', s = 10, alpha = 0.2)
              # alpha = 0.15, s = 5, zorder=10)
+print(np.max(df_comb.HL60_diff_mean))
+ax1.scatter(df_comb_controls.HT29_diff_mean, df_comb_controls.HL60_diff_mean,
+          edgecolors = 'k', linewidths = 0.4, zorder = 5,
+           color = '#B8BABC', s = 10, alpha = 0.8)
+
 ax1.set_xlabel(r'normalized log$_2$ fold-change'
                  '\n(HT29 cell line)', fontsize = 12)
 ax1.set_ylabel(r'normalized log$_2$ fold-change'
@@ -109,6 +140,9 @@ ax2.scatter(df_comb.A375_diff_mean, df_comb.HL60_diff_mean,
            color = '#738FC1', s = 10, alpha = 0.2)
              # alpha = 0.15, s = 5, zorder=10)
 
+ax2.scatter(df_comb_controls.A375_diff_mean, df_comb_controls.HL60_diff_mean,
+          edgecolors = 'k', linewidths = 0.4, zorder = 5,
+           color = '#B8BABC', s = 10, alpha = 0.8)
 
 ax2.set_xlabel(r'normalized log$_2$ fold-change'
                  '\n(A375 cell line)', fontsize = 12)
