@@ -47,8 +47,8 @@ ax_flow = [ax_C1, ax_C2, ax_C3]
 
 
 files_ = ['../../data/flow_cytometry/20211121_diffScreen_KD_lines/diff_sgCtrl1_Data Source - 1.fcs',
-     '../../data/flow_cytometry/20211121_diffScreen_KD_lines/diff_FLCN_Data Source - 1.fcs',
-     '../../data/flow_cytometry/20211121_diffScreen_KD_lines/diff_LAMTOR1_Data Source - 1.fcs']
+     '../../data/flow_cytometry/20211121_diffScreen_KD_lines/diff_LAMTOR1_Data Source - 1.fcs',
+     '../../data/flow_cytometry/20211121_diffScreen_KD_lines/diff_FLCN_Data Source - 1.fcs']
 
 ax_ind = dict(zip(files_, np.arange(3)))
 
