@@ -20,14 +20,7 @@ from upsetplot import UpSet
 
 plt.style.use('styleNB.mplstyle')
 
-
-###############################
-# upset plot - venn type diagram
-###############################
-
-
 def fdr(p_vals):
-
     from scipy.stats import rankdata
     ranked_p_values = rankdata(p_vals)
     fdr = p_vals * len(p_vals) / ranked_p_values
@@ -35,54 +28,36 @@ def fdr(p_vals):
 
     return fdr
 
-# calculate fdr and identify genes with fdr < 0.05
-df_growth = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
-df_diff = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_differentiation_gene_pvalues.csv')
-df_mig = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_migration_combined_gene_pvalues.csv')
+###############################
+# upset plot - venn type diagram
+###############################
 
+# load in the screen data
+# growth and differentiation screens
+df_growth = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_growth_means_pvalue.csv')
+df_diff = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_differentiation_means_pvalue.csv')
+# migration screens
+df_mig1 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_tracketch_0_all_means_pvalue.csv')
+df_mig1['exp'] = 'migration_chemokinesis'
+df_mig2 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_tracketch_10_all_means_pvalue.csv')
+df_mig2['exp'] = 'migration_chemotaxis'
+df_mig3 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_3D_amoeboid_means_pvalue.csv')
+df_mig3['exp'] = 'migration_3D'
+
+# Append all DataFrames together
 df = df_growth
 df = df.append(df_diff,
         ignore_index = True)
-df = df.append(df_mig,
+df = df.append(df_mig1,
         ignore_index = True)
+df = df.append(df_mig2,
+        ignore_index = True)
+df = df.append(df_mig3,
+        ignore_index = True)
+df = df[~df.gene.str.contains('CONTROL')]
 
-# pd.read_csv('../../data/screen_summary/collated_screen_data_gene_pvalues_20210830.csv')
-# df = df[df.exp.isin(['growth', 'differentiation', 'ECM_all', 'ECM_all_truncatemerge', 'ECM_fibrin_goodcollagen',
-# 'ECM_fibrinonly'])]
-# # df = pd.append(pd.read_csv('../../data/screen_summary/collated_screen_data_gene_transwellcombined_pvalues_20211222.csv'),
-# #             ignore_index = True)
-# # df = df.append(pd.read_csv('../../data/screen_summary/collated_screen_data_gene_transwellcombined_10grad_pvalues_20211222.csv'),
-# #               ignore_index = True)
-# # df = df.append(pd.read_csv('../../data/screen_summary/collated_screen_data_gene_transwellcombined_NOgrad_pvalues_20211222.csv'),
-# #               ignore_index = True)
-# df = df.append(pd.read_csv('../../data/screen_summary/collated_screen_data_gene_pvalues_20210830.csv'),
-#                 ignore_index = True)
 
-# df = df[df.exp.isin([, 'differentiation', 'growth' ,
-#  'transwell_all_10grad_data', 'transwell_all_NOgrad_data'])]
-
-# Load the compiled data sets
-
-# df_sig = pd.DataFrame([])
-# for exp, d in df.groupby('exp'):
-#     d['fdr'] = fdr(d.pvalue)
-#     if 'ECM' in exp:
-#         d = d[d.fdr <= 0.2]
-#     else:
-#         d = d[d.fdr <= 0.05]
-#     df_sig = df_sig.append(d, ignore_index = True)
-#
-# # print(df_sig.exp.unique())
-# df_sig = df_sig[['gene', 'exp']]
-# df_sig_mig = df_sig[df_sig['exp'].str.contains('ECM')]
-# df_sig_mig = df_sig_mig.append(df_sig[df_sig.exp.str.contains('transwell')])
-# df_sig_mig = df_sig_mig[['gene']].drop_duplicates()
-# df_sig_mig['exp'] = 'cell migration'
-# df_sig = df_sig[~df_sig['exp'].str.contains('ECM')]
-# df_sig = df_sig[~df_sig['exp']str.contains('transwell')]
-#
-# df_sig = df_sig.append(df_sig_mig, ignore_index = True)
-
+# calculate fdr and identify genes with fdr < 0.05
 df_sig = pd.DataFrame([])
 for exp, d in df.groupby('exp'):
     d['fdr'] = fdr(d.pvalue)
@@ -112,7 +87,6 @@ set_df.set_index([g for g in set_df.keys() if g != 'gene'], inplace=True)
 #%%
 
 
-
 upset = UpSet(set_df, sum_over='gene', show_counts=False,
                 sort_by='cardinality',element_size=45,
                 facecolor='#E3DCD1', other_dots_color='#C6C6C6',
@@ -140,4 +114,4 @@ with plt.rc_context(params):
 
 # g
 
-plt.savefig('../../figures/Fig1F_screens_upset.pdf')
+plt.savefig('../../figures/Fig1F_screens_upset_.pdf')
