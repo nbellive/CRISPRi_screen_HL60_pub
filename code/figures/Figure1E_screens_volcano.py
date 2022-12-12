@@ -56,7 +56,8 @@ ax3_marg = fig.add_subplot(gs[0,5])
 ###############################
 
 # load in the data
-df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
+# df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
+df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_growth_means_pvalue.csv')
 
 #  proliferation; # calculate fdr
 df_ = df[df.exp == 'growth']
@@ -96,7 +97,8 @@ sns.distplot(-np.log10(df_exp.fdr), hist = False, kde = True,
 #########################
 #  differentiation; # plot
 #########################
-df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_differentiation_gene_pvalues.csv')
+# df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_differentiation_gene_pvalues.csv')
+df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_differentiation_means_pvalue.csv')
 
 #  differentiation; # calculate fdr
 df_ = df[df.exp == 'differentiation']
@@ -137,7 +139,8 @@ sns.distplot(-np.log10(df_exp.fdr), hist = False, kde = True,
 #########################
 #  migration; # plot
 #########################
-df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_migration_combined_gene_pvalues.csv')
+df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_migration_all_means_pvalue.csv')
+
 df_ = df
 df_['fdr'] = fdr(df_.pvalue)
 
@@ -187,4 +190,4 @@ for  ax_ in [ax1, ax2, ax3, ax1_marg, ax2_marg, ax3_marg]:
     ax_.tick_params(width=0.6)
 
 plt.tight_layout()
-fig.savefig('../../figures/Fig1E_screens_volcano.pdf')#, bbox_inches='tight')
+fig.savefig('../../figures/Fig1E_screens_volcano_.pdf')#, bbox_inches='tight')

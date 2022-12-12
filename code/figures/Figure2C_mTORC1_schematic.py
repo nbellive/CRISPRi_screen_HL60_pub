@@ -50,9 +50,8 @@ fig, ax = plt.subplots(figsize=(2*len(genes), 2))
 
 #############################
 
-df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_differentiation_gene_pvalues.csv')
+df = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_differentiation_means_pvalue.csv')
 df = df[~df.gene.str.contains('CONTROL')]
-df['pvalue'] = df['pvalue'].fillna(df['pvalue'].min())
 df['fdr'] = fdr(df['pvalue'])
 
 

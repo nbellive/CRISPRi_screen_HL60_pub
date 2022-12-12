@@ -131,13 +131,13 @@ cell_lines_marker_dict = {'sgCtrl1': 'o',
 
 
 # load in the data
-df_screen = pd.read_csv('../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_differentiation_sgRNA_means.csv')
-
+# df_screen = pd.read_csv('../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_differentiation_sgRNA_means.csv')
+df_screen = pd.read_csv('../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_differentiation_all.csv')
 
 # we only care about  the sgRNA  that we've made cell lines for
 print(df_screen.head())
 df_screen = df_screen[df_screen.sgRNA.isin(cell_lines_sg)]
-df_screen = df_screen[['gene','sgRNA','log2fold_diff_mean']]
+df_screen = df_screen[['gene','sgRNA','diff']]
 
 
 df = pd.read_csv('../../data/screen_followups/20211122_proliferation_curves.csv')
@@ -150,10 +150,10 @@ df_exps = df_exps[df_exps.DMSO == True]
 # generate plots
 for gene, d in df_exps[df_exps.date == df_exps.date.max()].groupby('cell_line'):
     if gene == 'sgCtrl1':
-        ax2.errorbar(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.mean(),
+        ax2.errorbar(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]]['diff'].mean(),
                     d.effective_density_1E6_ml.mean(),
                      yerr = d.effective_density_1E6_ml.std(),
-                    xerr = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.std(),#/np.sqrt(len(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean)),
+                    xerr = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]]['diff'].std(),#/np.sqrt(len(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean)),
                      markersize = 9, marker = cell_lines_marker_dict[gene], color = '#B8BABC',
                     markeredgecolor = 'k',
                     markeredgewidth = 0.5, lw = 1, label = gene)
@@ -161,10 +161,10 @@ for gene, d in df_exps[df_exps.date == df_exps.date.max()].groupby('cell_line'):
 
     else:
         print(gene, ', replicates :', len(d.effective_density_1E6_ml))
-        ax2.errorbar(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.mean(),
+        ax2.errorbar(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]]['diff'].mean(),
                     d.effective_density_1E6_ml.mean(),
                     yerr = d.effective_density_1E6_ml.std(),
-                    xerr = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.std(),#/np.sqrt(len(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean)),
+                    xerr = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]]['diff'].std(),#/np.sqrt(len(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean)),
                     marker =  cell_lines_marker_dict[gene],
                     color  = cell_lines_colors[gene], markersize = 9, markeredgecolor = 'k',
                     markeredgewidth = 0.5, lw = 1, label = gene)
@@ -287,4 +287,4 @@ for ax_ in [ax1, ax2, ax3]:
 
 
 plt.tight_layout()
-fig.savefig('../../figures/Fig2_differentiation.pdf', bbox_inches='tight')
+fig.savefig('../../figures/Fig2_differentiation_.pdf', bbox_inches='tight')

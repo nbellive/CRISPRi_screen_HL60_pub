@@ -91,8 +91,10 @@ ax5 = fig.add_subplot(gs[1,2])
 
 #############################
 
-df_growth = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
-df_diff = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_differentiation_gene_pvalues.csv')
+# df_growth = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
+# df_diff = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_differentiation_gene_pvalues.csv')
+df_growth = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_growth_means_pvalue.csv')
+df_diff = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_differentiation_means_pvalue.csv')
 
 df_compare = pd.merge(df_growth,
                       df_diff,
@@ -118,10 +120,10 @@ ax5.set_yticks([])
 
 # ax2.spines['left'].set_position(('data', 0))
 # ax2.spines['bottom'].set_position(('data', 0))
-ax2.hlines(0, -2.4, 0.6, linestyles = '--')
+ax2.hlines(0, -2.5, 0.6, linestyles = '--')
 ax2.vlines(0, -1.9, 1.4, linestyles = '--')
 for ax_ in [ax1, ax2]:
-    ax_.set_xlim(-2.4, 0.6)
+    ax_.set_xlim(-2.5, 0.6)
 for ax_ in [ax2, ax4, ax5]:
     ax_.set_ylim(-1.9, 1.4)
 
@@ -178,6 +180,16 @@ ax2.scatter(df_compare[df_compare.gene.isin(['SPI1'])].log2fold_diff_mean_x,
           edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'SPI1',
            color = color_set_3[1], s = 20, alpha = 1)
 
+ax2.scatter(df_compare[df_compare.gene.isin(['TFEB'])].log2fold_diff_mean_x,
+            df_compare[df_compare.gene.isin(['TFEB'])].log2fold_diff_mean_y,
+          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFEB',
+           color = color_set_3[1], s = 20, alpha = 1)
+
+ax2.scatter(df_compare[df_compare.gene.isin(['TFE3'])].log2fold_diff_mean_x,
+            df_compare[df_compare.gene.isin(['TFE3'])].log2fold_diff_mean_y,
+          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFE3',
+           color = color_set_3[1], s = 20, alpha = 1)
+
 
 # Calculate controls
 d_ctrl = df_compare[df_compare.gene.str.contains('CONTROL')].copy().reset_index()
@@ -190,7 +202,7 @@ ax2.scatter(d_ctrl.log2fold_diff_mean_x, d_ctrl.log2fold_diff_mean_y,
 ######################
 # scatter - cell migration
 
-df_mig = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_migration_combined_gene_pvalues.csv')
+df_mig = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_migration_all_means_pvalue.csv')
 
 df_compare = pd.merge(df_mig,
                       df_diff,
@@ -198,7 +210,7 @@ df_compare = pd.merge(df_mig,
 
 df_compare = df_compare[['gene', 'log2fold_diff_mean_x', 'exp_x', 'log2fold_diff_mean_y']]
 df_compare.columns = ['gene', 'log2fold_diff_mean_x', 'exp', 'log2fold_diff_mean_y']
-
+print(np.min(df_compare.log2fold_diff_mean_x))
 sns.distplot(df_compare['log2fold_diff_mean_x'], hist = False, kde = True,
                  kde_kws = {'shade': True, 'linewidth': 1, 'legend' : False},
                   ax = ax3)
@@ -208,10 +220,10 @@ ax3.set_yticks([])
 
 # ax4.spines['left'].set_position(('data', 0))
 # ax4.spines['bottom'].set_position(('data', 0))
-ax4.hlines(0, -2.4, 1.4, linestyles = '--')
+ax4.hlines(0, -2.7, 1.4, linestyles = '--')
 ax4.vlines(0, -1.9, 1.4, linestyles = '--')
 for ax_ in [ax3, ax4]:
-    ax_.set_xlim(-2.4, 1.4)
+    ax_.set_xlim(-2.7, 1.4)
 
 ax4.set_xticks([-2,-1,0, 1])
 ax4.set_yticks([-1,0,1])
@@ -266,6 +278,15 @@ ax4.scatter(df_compare[df_compare.gene.isin(['SPI1'])].log2fold_diff_mean_x,
           edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'SPI1',
            color = color_set_3[1], s = 20, alpha = 1)
 
+ax4.scatter(df_compare[df_compare.gene.isin(['TFEB'])].log2fold_diff_mean_x,
+            df_compare[df_compare.gene.isin(['TFEB'])].log2fold_diff_mean_y,
+          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFEB',
+           color = color_set_3[1], s = 20, alpha = 1)
+
+ax4.scatter(df_compare[df_compare.gene.isin(['TFE3'])].log2fold_diff_mean_x,
+            df_compare[df_compare.gene.isin(['TFE3'])].log2fold_diff_mean_y,
+          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFE3',
+           color = color_set_3[1], s = 20, alpha = 1)
 
 # # Calculate controls
 d_ctrl = df_compare[df_compare.gene.str.contains('CONTROL')].copy().reset_index()
@@ -285,7 +306,7 @@ for ax_ in [ax1, ax2, ax3, ax4, ax5]:
     ax_.tick_params(width=0.6)
 
 plt.tight_layout()
-fig.savefig('../../figures/Fig2B_screens_scatter.pdf')
+fig.savefig('../../figures/Fig2B_screens_scatter_.pdf')
 
 # ax2.legend()
 # fig.savefig('../../figures/Fig2B_screens_scatter_wLegend.pdf')

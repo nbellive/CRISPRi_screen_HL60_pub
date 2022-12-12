@@ -30,8 +30,6 @@ def fdr(p_vals):
     return fdr
 
 
-
-# plt.style.use('styleNB')
 plt.style.use('styleNB.mplstyle')
 
 colors = ['#738FC1', '#7AA974', '#D56C55', '#EAC264', '#AB85AC', '#C9D7EE', '#E8B19D', '#DCECCB', '#D4C2D9']
@@ -62,7 +60,8 @@ df_2D_ctrl = df_2D_err[df_2D_err.gene.str.contains('CONTROL')]
 # df_3D =  df_3D.drop_duplicates()
 # df_3D = df_3D[~df_3D.gene.str.contains('CONTROL')]
 
-df_3D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20220516_screen_log2fold_diffs_ECM_truncate_sgRNA_pvalues.csv')
+# df_3D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20220516_screen_log2fold_diffs_ECM_truncate_sgRNA_pvalues.csv')
+# df_3D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20220516_screen_log2fold_diffs_ECM_truncate_sgRNA_pvalues.csv')
 df_3D = df_3D[['gene','sgRNA','log2fold_diff_mean','exp','pvalue']]
 df_3D = df_3D.drop_duplicates()
 # df_3D = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_means.csv')
@@ -71,7 +70,8 @@ df_3D['fdr'] = fdr(df_3D.pvalue)
 # df_3D['gene'] = df_3D.gene.apply(lambda x: x[2:-2])
 
 
-df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_all.csv')
+# df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_all.csv')
+df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_means_pvalue.csv')
 # df_3D_err =  df_3D_err.drop_duplicates()
 # df_3D_err = pd.read_csv('../../data/screen_summary/20220412_screen_log2fold_diffs_ECM_all.csv')
 df_3D_err = df_3D_err[['sgRNA', 'annotated_gene_symbol', 'diff', 'exp']]
@@ -82,10 +82,10 @@ df_3D = df_3D[df_3D.sgRNA.isin(df_3D_err.sgRNA.unique())]
 
 #############################################
 #  Figure (4?): focus on integrins and their trafficking
-# (A) show key top hits from transwell - IalphamB2
+# (A) show key top hits from transwell - integrins alpham beta2
 # (B) integrin hits in 2D/3D datasets
 # (C) experimental data showing speed and persistence in 2D/3D
-# (D) transwell  data on trafficking
+# (D) transwell data on trafficking
 # (E) flow cytometry to show drop in integrin expression
 #############################################
 
@@ -289,7 +289,7 @@ cax3.spines['bottom'].set_visible(False)
 ###############################
 # c - integrins migration data
 ###############################
-files_bay_2d = glob.glob('../../data/processed_tracking_bayesian/20220328_2D_filtered_avg*all*')
+files_bay_2d = glob.glob('../../data/processed_tracking_bayesian/20220920_2D_filtered_avg*all*')
 
 df_Bayes_2d = pd.DataFrame()
 for f in files_bay_2d:
@@ -301,7 +301,7 @@ df_Bayes_2d = df_Bayes_2d[['average_persistence', 'cell', 'celltype', 'concentra
 df_Bayes_2d.columns = ['average_persistence', 'cell', 'celltype', 'concentration',
                 'date', 'material', 'position', 'average_speed', 'trial']
 
-files_bay_3d = glob.glob('../../data/processed_tracking_bayesian/20220328_3D_filtered_*avg*all*')
+files_bay_3d = glob.glob('../../data/processed_tracking_bayesian/20220920_3D_filtered_*avg*all*')
 df_Bayes_3d = pd.DataFrame()
 for f in files_bay_3d:
     df_temp = pd.read_csv(f)

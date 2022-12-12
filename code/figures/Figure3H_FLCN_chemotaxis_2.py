@@ -51,19 +51,18 @@ df = pd.read_csv('../../data/processed_tracking/20220404_chemotaxis/20220404_che
 y = df[df.rowlabels.str.contains('sgCONTROL-')].s0/60 #per second
 s0_ctrl = ax_Fi.violinplot(y,
                     positions = [0.5], points=60, widths=0.3,
-                     showmeans=False, showextrema=False, showmedians=False,
+                     showmeans=True, showextrema=False, showmedians=False,
                      bw_method=0.2)
 
 for pc in s0_ctrl['bodies']:
     pc.set_color('#B8BABC')
     pc.set_alpha(0.5)
 
-ax_Fi.hlines(y.median(), 0.5-0.2,0.5+0.2, zorder=10, lw = 1.5)
+ax_Fi.hlines(y.mean(), 0.5-0.2,0.5+0.2, zorder=10, lw = 1.5)
 
 for date, d in df[df.rowlabels.str.contains('sgCONTROL-')].groupby('date'):
-    y_i = d.s0/60
-    print(date, 'Control', len(y_i), ' wells, ', np.sum(d.num1))
-    ax_Fi.errorbar(np.random.normal(0.5, 0.05, 1), y_i.median(),
+    y_i = d[d.rowlabels.str.contains('sgCONTROL-')].s0/60
+    ax_Fi.errorbar(np.random.normal(0.5, 0.05, 1), y_i.mean(),
                 markersize = 4, marker = 'o', color  = 'k',
                     markeredgecolor = 'k',
                     markeredgewidth = 0.5,
@@ -75,19 +74,18 @@ for date, d in df[df.rowlabels.str.contains('sgCONTROL-')].groupby('date'):
 y = df[df.rowlabels.str.contains('FLCN')].s0/60
 s0_flcn = ax_Fi.violinplot(y,
                     positions = [1], points=60, widths=0.3,
-                     showmeans=False, showextrema=False, showmedians=False,
+                     showmeans=True, showextrema=False, showmedians=False,
                      bw_method=0.2)
 
 for pc in s0_flcn['bodies']:
     pc.set_color(cell_lines_colors['sgFLCN'])
     pc.set_alpha(0.5)
 
-ax_Fi.hlines(y.median(), 1-0.2,1+0.2, zorder=10, lw = 1.5)
+ax_Fi.hlines(y.mean(), 1-0.2,1+0.2, zorder=10, lw = 1.5)
 
 for date, d in df[df.rowlabels.str.contains('FLCN')].groupby('date'):
-    y_i = d.s0/60
-    print(date, 'Control', len(y_i), ' wells, ', np.sum(d.num1))
-    ax_Fi.errorbar(np.random.normal(1, 0.05, 1), y_i.median(),
+    y_i = d[d.rowlabels.str.contains('FLCN')].s0/60
+    ax_Fi.errorbar(np.random.normal(1, 0.05, 1), y_i.mean(),
                 markersize = 4, marker = 'o', color  = 'k',
                     markeredgecolor = 'k',
                     markeredgewidth = 0.5,
@@ -102,18 +100,18 @@ ax_Fi.set_ylim(0,0.3)
 y = df[df.rowlabels.str.contains('sgCONTROL-')].a1
 s0_ctrl = ax_Fii.violinplot(y,
                     positions = [0.5], points=60, widths=0.3,
-                     showmeans=False, showextrema=False, showmedians=False,
+                     showmeans=True, showextrema=False, showmedians=False,
                      bw_method=0.2)
 
 for pc in s0_ctrl['bodies']:
     pc.set_color('#B8BABC')
     pc.set_alpha(0.5)
 
-ax_Fii.hlines(y.median(), 0.5-0.2,0.5+0.2, zorder=10, lw = 1.5)
+ax_Fii.hlines(y.mean(), 0.5-0.2,0.5+0.2, zorder=10, lw = 1.5)
 
 for date, d in df[df.rowlabels.str.contains('sgCONTROL-')].groupby('date'):
     y_i = d[d.rowlabels.str.contains('sgCONTROL-')].a1
-    ax_Fii.errorbar(np.random.normal(0.5, 0.05, 1), y_i.median(),
+    ax_Fii.errorbar(np.random.normal(0.5, 0.05, 1), y_i.mean(),
                 markersize = 4, marker = 'o', color  = 'k',
                     markeredgecolor = 'k',
                     markeredgewidth = 0.5,
@@ -125,18 +123,18 @@ for date, d in df[df.rowlabels.str.contains('sgCONTROL-')].groupby('date'):
 y = df[df.rowlabels.str.contains('FLCN')].a1
 a1_flcn = ax_Fii.violinplot(y,
                     positions = [1], points=60, widths=0.3,
-                     showmeans=False, showextrema=False, showmedians=False,
+                     showmeans=True, showextrema=False, showmedians=False,
                      bw_method=0.2)
 
 for pc in a1_flcn['bodies']:
     pc.set_color(cell_lines_colors['sgFLCN'])
     pc.set_alpha(0.5)
 
-ax_Fii.hlines(y.median(), 1-0.2,1+0.2, zorder=10, lw = 1.5)
+ax_Fii.hlines(y.mean(), 1-0.2,1+0.2, zorder=10, lw = 1.5)
 
 for date, d in df[df.rowlabels.str.contains('FLCN')].groupby('date'):
     y_i = d[d.rowlabels.str.contains('FLCN')].a1
-    ax_Fii.errorbar(np.random.normal(1, 0.05, 1), y_i.median(),
+    ax_Fii.errorbar(np.random.normal(1, 0.05, 1), y_i.mean(),
                 markersize = 4, marker = 'o', color  = 'k',
                     markeredgecolor = 'k',
                     markeredgewidth = 0.5,
@@ -151,18 +149,18 @@ ax_Fii.set_ylim(0,30)
 y = df[df.rowlabels.str.contains('sgCONTROL-')].c1
 s0_ctrl = ax_Fiii.violinplot(y,
                     positions = [0.5], points=60, widths=0.3,
-                     showmeans=False, showextrema=False, showmedians=False,
+                     showmeans=True, showextrema=False, showmedians=False,
                      bw_method=0.2)
 
 for pc in s0_ctrl['bodies']:
     pc.set_color('#B8BABC')
     pc.set_alpha(0.5)
 
-ax_Fiii.hlines(y.median(), 0.5-0.2,0.5+0.2, zorder=10, lw = 1.5)
+ax_Fiii.hlines(y.mean(), 0.5-0.2,0.5+0.2, zorder=10, lw = 1.5)
 
 for date, d in df[df.rowlabels.str.contains('sgCONTROL-')].groupby('date'):
     y_i = d[d.rowlabels.str.contains('sgCONTROL-')].c1
-    ax_Fiii.errorbar(np.random.normal(0.5, 0.05, 1), y_i.median(),
+    ax_Fiii.errorbar(np.random.normal(0.5, 0.05, 1), y_i.mean(),
                 markersize = 4, marker = 'o', color  = 'k',
                     markeredgecolor = 'k',
                     markeredgewidth = 0.5,
@@ -174,18 +172,18 @@ for date, d in df[df.rowlabels.str.contains('sgCONTROL-')].groupby('date'):
 y = df[df.rowlabels.str.contains('FLCN')].c1
 a1_flcn = ax_Fiii.violinplot(y,
                     positions = [1], points=60, widths=0.3,
-                     showmeans=False, showextrema=False, showmedians=False,
+                     showmeans=True, showextrema=False, showmedians=False,
                      bw_method=0.2)
 
 for pc in a1_flcn['bodies']:
     pc.set_color(cell_lines_colors['sgFLCN'])
     pc.set_alpha(0.5)
 
-ax_Fiii.hlines(y.median(), 1-0.2,1+0.2, zorder=10, lw = 1.5)
+ax_Fiii.hlines(y.mean(), 1-0.2,1+0.2, zorder=10, lw = 1.5)
 
 for date, d in df[df.rowlabels.str.contains('FLCN')].groupby('date'):
     y_i = d[d.rowlabels.str.contains('FLCN')].c1
-    ax_Fiii.errorbar(np.random.normal(1, 0.05, 1), y_i.median(),
+    ax_Fiii.errorbar(np.random.normal(1, 0.05, 1), y_i.mean(),
                 markersize = 4, marker = 'o', color  = 'k',
                     markeredgecolor = 'k',
                     markeredgewidth = 0.5,
@@ -195,4 +193,4 @@ for date, d in df[df.rowlabels.str.contains('FLCN')].groupby('date'):
 ax_Fiii.set_ylim(0,4)
 
 plt.tight_layout()
-fig.savefig('../../figures/Fig4CD_FLCN_chemotaxis.pdf', bbox_inches='tight')
+fig.savefig('../../figures/Fig4CD_FLCN_chemotaxis_2_.pdf', bbox_inches='tight')
