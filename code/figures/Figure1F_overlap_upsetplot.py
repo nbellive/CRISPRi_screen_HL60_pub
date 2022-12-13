@@ -5,8 +5,6 @@ import glob
 import pandas as pd
 import math
 
-import FlowCytometryTools
-from FlowCytometryTools import FCMeasurement
 
 import skimage
 import skimage.io
@@ -80,8 +78,8 @@ for  sg in df_sig['gene'].unique():
                             'cell migration': migration,
                             'gene': 1},
                             ignore_index=True)
-
-
+# make a copy
+set_df_ = set_df.copy()
 #%%
 set_df.set_index([g for g in set_df.keys() if g != 'gene'], inplace=True)
 #%%
@@ -106,12 +104,14 @@ params = {'legend.fontsize': 10,
           'font.size': 12}
 with plt.rc_context(params):
     upset.plot()
-# g = upsetplot.plot(set_df, sum_over='gene', show_counts=True,
-#                 sort_by='cardinality',element_size=45,
-#                 facecolor='#E3DCD1', other_dots_color='#C6C6C6',
-#                 shading_color = '#F2F2F2')
-
-
-# g
 
 plt.savefig('../../figures/Fig1F_screens_upset_.pdf')
+
+
+# Grab some useful numbers for the main text
+set_df_ = set_df_[set_df_['cell migration'] == True]
+set_df_ = set_df_[set_df_['growth'] == False]
+set_df_mig_diff = set_df_[set_df_['differentiation'] == True]
+print('migration+diff, :', len(set_df_mig_diff))
+set_df_mig = set_df_[set_df_['differentiation'] == False]
+print('migration, :', len(set_df_mig))

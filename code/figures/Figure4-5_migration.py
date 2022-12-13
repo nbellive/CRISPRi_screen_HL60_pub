@@ -5,8 +5,8 @@ import glob
 import pandas as pd
 import math
 
-import FlowCytometryTools
-from FlowCytometryTools import FCMeasurement
+# import FlowCytometryTools
+# from FlowCytometryTools import FCMeasurement
 
 import skimage
 import skimage.io
@@ -99,7 +99,8 @@ df = df[df.percent_migrated <= 40]
 
 # screen  data - grab only 10% gradient
 # df_screen = pd.read_csv('../../data/screen_summary/collated_screen_data_sgRNA_20211222.csv')
-df_screen = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data_sgRNA.csv')
+# df_screen = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data_sgRNA.csv')
+df_screen = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data.csv')
 df_screen =  df_screen.drop_duplicates()
 df_screen =  df_screen[df_screen.exp.str.contains('tracketch')]
 df_screen =  df_screen[df_screen.exp.str.contains('_10_')]
@@ -110,18 +111,18 @@ df_screen = df_screen[df_screen.sgRNA.isin(cell_lines_sg)]
 # plot  data
 for gene, d in df.groupby('cell_line'):
     if gene == 'sgCTRL1':
-        N_screen = len(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff)
+        N_screen = len(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean)
         N_tracketch = len(d.percent_migrated.values)
 
-        ax_A.errorbar(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff.mean(),
+        ax_A.errorbar(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.mean(),
                     d.percent_migrated.mean()/100,
-                    xerr = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff.std()/N_screen**0.5,
+                    xerr = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.std()/N_screen**0.5,
                     yerr = (d.percent_migrated.std()/100)/N_tracketch**0.5,
                    markersize = 7, marker = cell_lines_marker_dict[gene], color = '#B8BABC',
                     markeredgecolor = 'k',
                     markeredgewidth = 0.5, lw = 1, label = gene)
         ctrl_value = d.percent_migrated.mean()/100
-        pearson_screen[pearson_gene_dict[gene]] = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff.mean()
+        pearson_screen[pearson_gene_dict[gene]] = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.mean()
         pearson_transwell[pearson_gene_dict[gene]] = d.percent_migrated.mean()/100
     else:
         continue
@@ -130,16 +131,16 @@ for gene, d in df.sort_values(by='percent_migrated').groupby('cell_line', sort=F
     if gene == 'sgCTRL1':
         continue
     else:
-        N_screen = len(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff.values)
+        N_screen = len(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.values)
         N_tracketch = len(d.percent_migrated.values)
-        ax_A.errorbar(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff.mean(),
+        ax_A.errorbar(df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.mean(),
                    d.percent_migrated.mean()/100,
-                    xerr = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff.std()/N_screen**0.5,
+                    xerr = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.std()/N_screen**0.5,
                     yerr = (d.percent_migrated.std()/100)/N_tracketch**0.5,
                     marker =  cell_lines_marker_dict[gene],
                     color  = '#7AA974', markersize = 7, markeredgecolor = 'k',
                     markeredgewidth = 0.5, lw = 1, label = gene)
-        pearson_screen[pearson_gene_dict[gene]] = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff.mean()
+        pearson_screen[pearson_gene_dict[gene]] = df_screen[df_screen.sgRNA == cell_lines_sg_dict[gene]].log2fold_diff_mean.mean()
         pearson_transwell[pearson_gene_dict[gene]] = d.percent_migrated.mean()/100
 
 ax_A.set_xlabel('normalized\n'
@@ -218,14 +219,15 @@ df_3D =  df_3D[df_3D.concentration == '0.75mgml']
 # Load in ECM screen data - here is the mean log fold values
 # df_screen3D = pd.read_csv('../../data/screen_summary/final/20220516_screen_log2fold_diffs_ECM_truncate_sgRNA_means.csv')
 # df_screen3D = df_screen3D.drop_duplicates()
-df_screen3D = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data_ECM_3.csv')
+# df_screen3D = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data_ECM_3.csv')
+df_screen3D = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_all.csv')
 df_screen3D = df_screen3D[df_screen3D.sgRNA.isin(cell_lines_sg)]
 
 # Load in ECM screen data - here is the individual log fold values across all experiments
 # df_screen3D_err = pd.read_csv('../../data/screen_summary/final/20220516_screen_log2fold_diffs_ECM_truncate_sgRNA_all.csv')
 # df_screen3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_all.csv')
 # df_screen3D_err = pd.read_csv('../../data/screen_summary/temp/collated_screen_data_ECM_3.csv')
-df_screen3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_all.csv')
+df_screen3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_all.csv')
 df_screen3D_err =  df_screen3D_err.drop_duplicates()
 # df_screen3D_err =  df_screen3D_err[df_screen3D_err.exp.str.contains('ECM')]
 # print(df_screen3D_err)
@@ -240,12 +242,12 @@ for c in ['Control1', 'CORO1A', 'FMNL1',  'ITGB2']:
     elif c == 'ITGB2':
         col = '#7AA974'
         d_screen3 = df_screen3D[df_screen3D.gene == c]
-        d_screen3_err = df_screen3D_err[df_screen3D_err.annotated_gene_symbol == c]
+        d_screen3_err = df_screen3D_err[df_screen3D_err.gene == c]
         d_screen3_err  = d_screen3_err[d_screen3_err.sgRNA  == cell_lines_sg_dict['sg'+c]]
     else:
         col =  '#EAC264' #'#738FC1'
         d_screen3 = df_screen3D[df_screen3D.gene == c]
-        d_screen3_err = df_screen3D_err[df_screen3D_err.annotated_gene_symbol == c]
+        d_screen3_err = df_screen3D_err[df_screen3D_err.gene == c]
         d_screen3_err  = d_screen3_err[d_screen3_err.sgRNA  == cell_lines_sg_dict['sg'+c]]
 
     # calculate average speed across tracked cells
@@ -255,14 +257,14 @@ for c in ['Control1', 'CORO1A', 'FMNL1',  'ITGB2']:
         N_3d += 1
         speeds = np.append(speeds, np.median(d['speed ($\mu$m/sec)']))
 
-    ax_Bi.errorbar(d_screen3.log2fold_diff.mean(),  np.median(d_3D['speed ($\mu$m/sec)'].values),
+    ax_Bi.errorbar(d_screen3['diff'].mean(),  np.median(d_3D['speed ($\mu$m/sec)'].values),
         xerr = d_screen3_err['diff'].std()/np.sqrt(len(d_screen3_err['diff'])),
         yerr = np.std(speeds)/np.sqrt(N_3d),
        markersize = 7, marker = cell_lines_marker_dict['sg'+c], color = col,
         markeredgecolor = 'k',
         markeredgewidth = 0.5, lw = 1, label = c)
 
-    pearson_screen_3D[pearson_gene_dict_3D[c]] = d_screen3.log2fold_diff.mean()
+    pearson_screen_3D[pearson_gene_dict_3D[c]] = d_screen3['diff'].mean()
     pearson_ecm_speed[pearson_gene_dict_3D[c]] = np.median(d_3D['speed ($\mu$m/sec)'].values)
 
     if c  ==  'Control1':
@@ -298,12 +300,12 @@ for c in ['Control1', 'CORO1A', 'FMNL1',  'ITGB2']:
     elif c == 'ITGB2':
         col = '#7AA974'
         d_screen3 = df_screen3D[df_screen3D.gene == c]
-        d_screen3_err = df_screen3D_err[df_screen3D_err.annotated_gene_symbol == c]
+        d_screen3_err = df_screen3D_err[df_screen3D_err.gene == c]
         d_screen3_err  = d_screen3_err[d_screen3_err.sgRNA  == cell_lines_sg_dict['sg'+c]]
     else:
         col =  '#EAC264' #'#738FC1'
         d_screen3 = df_screen3D[df_screen3D.gene == c]
-        d_screen3_err = df_screen3D_err[df_screen3D_err.annotated_gene_symbol == c]
+        d_screen3_err = df_screen3D_err[df_screen3D_err.gene == c]
         d_screen3_err  = d_screen3_err[d_screen3_err.sgRNA  == cell_lines_sg_dict['sg'+c]]
 
     # calculate average speed across tracked cells
@@ -313,14 +315,14 @@ for c in ['Control1', 'CORO1A', 'FMNL1',  'ITGB2']:
         N_3d += 1
         speeds = np.append(speeds, np.median(d['average_persistence']))
 
-    ax_Bii.errorbar(d_screen3.log2fold_diff.mean(), np.median(d_3D['average_persistence']),#np.mean(speeds),
+    ax_Bii.errorbar(d_screen3['diff'].mean(), np.median(d_3D['average_persistence']),#np.mean(speeds),
         xerr = d_screen3_err['diff'].std()/np.sqrt(len(d_screen3_err['diff'])),
         yerr = np.std(speeds)/np.sqrt(N_3d),#np.std(d_3D['speed ($\mu$m/sec)'])/np.sqrt(N_3d),
        markersize = 7, marker = cell_lines_marker_dict['sg'+c], color = col,
         markeredgecolor = 'k',
         markeredgewidth = 0.5, lw = 1, label = c)
 
-    pearson_screen_3D[pearson_gene_dict_3D[c]] = d_screen3.log2fold_diff.mean()
+    pearson_screen_3D[pearson_gene_dict_3D[c]] = d_screen3['diff'].mean()
     pearson_ecm_persistence[pearson_gene_dict_3D[c]] = np.median(d_3D['average_persistence'].values)
 
 
@@ -345,7 +347,7 @@ print(pearson_ecm_persistence, pearson_screen_3D)
 
 
 plt.tight_layout()
-fig1.savefig('../../figures/Figure4D-5B_migration_screen_summaries.pdf')#, bbox_inches='tight')
+fig1.savefig('../../figures/Figure4D-5B_migration_screen_summaries_.pdf')#, bbox_inches='tight')
 #
 
 # ###############################
@@ -360,9 +362,12 @@ ax_Cii = fig2.add_subplot(gs2[1])
 ###############################
 # C - Comparison of chemotaxis, chemokinesis, and ECM
 ###############################
+#
+# df_10 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_tracketchcombined_10grad_gene_pvalues.csv')
+# df_0 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_tracketchcombined_Nograd_gene_pvalues.csv')
 
-df_10 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_tracketchcombined_10grad_gene_pvalues.csv')
-df_0 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_tracketchcombined_Nograd_gene_pvalues.csv')
+df_10 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_tracketch_10_all_means_pvalue.csv')
+df_0 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_tracketch_0_all_means_pvalue.csv')
 
 df_compare = pd.merge(df_10,
                       df_0,
@@ -382,10 +387,17 @@ ax_Ci.scatter(d_ctrl.log2fold_diff_mean_x, d_ctrl.log2fold_diff_mean_y,
             color = '#B8BABC', label = 'control pseudogenes', s = 20)
 
 
+ax_Ci.hlines(0, -3.6, 1.9, linestyles = '--', color = 'k')
+ax_Ci.vlines(0, -3.1, 1.9, linestyles = '--', color = 'k')
+ax_Ci.set_xlim(-3.3, 1.2)
+ax_Ci.set_ylim(-3.3, 1.9)
+ax_Ci.set_xticks([-3,-2,-1,0,1])
+ax_Ci.set_yticks([-3,-2,-1,0,1])
+
 # ax_Ci.set_xlim(-2.9,2.1)
 # ax_Ci.set_ylim(-2.9,2.1)
-ax_Ci.spines['left'].set_position(('data', 0))
-ax_Ci.spines['bottom'].set_position(('data', 0))
+# ax_Ci.spines['left'].set_position(('data', 0))
+# ax_Ci.spines['bottom'].set_position(('data', 0))
 
 # ax_Ci.set_xlabel(r'normalized log$_{2}$(fold-change)')
 # ax_Ci.set_ylabel(r'normalized log$_{2}$(fold-change)')
@@ -393,29 +405,12 @@ ax_Ci.set_xlabel('normalized\n'
                 r'log$_{2}$(fold-change)')
 ax_Ci.set_ylabel('normalized\n'
                 r'log$_{2}$(fold-change)')
-ax_Ci.xaxis.set_label_coords(0.6, -0.05)
-ax_Ci.yaxis.set_label_coords(0.0, 0.6)
+# ax_Ci.xaxis.set_label_coords(0.6, -0.05)
+# ax_Ci.yaxis.set_label_coords(0.0, 0.6)
 
-# df_compare = pd.merge(df[df.exp == 'ECM_all_data'],
-#                       df[df.exp == 'transwell_all_NOgrad_data'],
-#                       on = 'gene')
-#
-# ax5.scatter(df_compare[~df_compare.gene.str.contains('CONTROL')].log2fold_diff_mean_x,
-#             df_compare[~df_compare.gene.str.contains('CONTROL')].log2fold_diff_mean_y,
-#           edgecolors = 'k', linewidths = 0.4, zorder = 10, label = None,
-#            color = color[0], s = 20, alpha = 0.5)
-#
-# # pseudogenes
-# d_ctrl = df_compare[df_compare.gene.str.contains('CONTROL')].copy().reset_index()
-# ax5.scatter(d_ctrl.log2fold_diff_mean_x, d_ctrl.log2fold_diff_mean_y,
-#            edgecolors = 'k', linewidths = 0.6, alpha = 1, zorder=10,
-#             color = '#B8BABC', label = 'control pseudogenes', s = 20)
 
-# df = df.append(pd.read_csv('../../data/screen_summary/collated_screen_data_gene_pvalues_20210830.csv'),
-#                 ignore_index = True)
-
-df_0 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_tracketchcombined_Nograd_gene_pvalues.csv')
-df_ECM = pd.read_csv('../../data/screen_summary/stats/gene_avg/20211222_screen_log2fold_diffs_ECM_gene_pvalues_3.csv')
+df_0 = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_tracketch_0_all_means_pvalue.csv')
+df_ECM = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_3D_amoeboid_means_pvalue.csv')
 
 df_compare = pd.merge(df_ECM,
                       df_0,
@@ -434,17 +429,23 @@ ax_Cii.scatter(d_ctrl.log2fold_diff_mean_x, d_ctrl.log2fold_diff_mean_y,
 
 # ax_Cii.set_xlim(-2.5,1.5)
 # ax_Cii.set_ylim(-2.9,2.1)
-ax_Cii.spines['left'].set_position(('data', 0))
-ax_Cii.spines['bottom'].set_position(('data', 0))
+# ax_Cii.spines['left'].set_position(('data', 0))
+# ax_Cii.spines['bottom'].set_position(('data', 0))
 ax_Cii.set_xlabel('normalized\n'
                 r'log$_{2}$(fold-change)')
 ax_Cii.set_ylabel('normalized\n'
                 r'log$_{2}$(fold-change)')
-ax_Cii.xaxis.set_label_coords(0.6, -0.05)
-ax_Cii.yaxis.set_label_coords(0.0, 0.6)
+# ax_Cii.xaxis.set_label_coords(0.6, -0.05)
+# ax_Cii.yaxis.set_label_coords(0.0, 0.6)
+
+ax_Cii.hlines(0, -2.4, 1.2, linestyles = '--', color = 'k')
+ax_Cii.vlines(0, -3.1, 2, linestyles = '--', color = 'k')
+ax_Cii.set_xlim(-2.4, 1)
+ax_Cii.set_ylim(-3.1, 1.9)
+ax_Cii.set_yticks([-3,-2,-1,0,1])
 
 plt.tight_layout()
-fig2.savefig('../../figures/Figure4A-5A_migration_screen_comparison.pdf')#, bbox_inches='tight')
+fig2.savefig('../../figures/Figure4A-5A_migration_screen_comparison_.pdf')#, bbox_inches='tight')
 
 
 
@@ -482,7 +483,7 @@ vp_2d_s = np.empty_like(np.array([ax_git2_s,ax_git2_s]))
 pos = [0.5, 1, 1.75, 2.25, 2.75]
 for i, ct in enumerate(lines_2D):
     y = df_Bayes_2d[df_Bayes_2d.celltype == ct]['average_speed']
-    print(i, y.mean())
+    print('speed', i, y.mean())
     vp_2d_s[i] = ax_git2_s.violinplot(y, positions = [pos[i]], points=60, widths=0.3,
                          showmeans=False, showextrema=False, showmedians=False,
                          bw_method=0.2)
@@ -549,7 +550,7 @@ ax_git2_p.spines['bottom'].set_position(('data', 0))
 ax_git2_p.set_xticks([])
 
 plt.tight_layout()
-fig3.savefig('../../figures/Fig4F_migration_GIT2.pdf')
+fig3.savefig('../../figures/Fig4F_migration_GIT2_.pdf')
 
 
 ########################
