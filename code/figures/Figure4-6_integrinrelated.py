@@ -136,7 +136,7 @@ for i, val in enumerate(genes):
 
 ax1.set_yticks([])
 ax1.set_xticks([-3,-2,-1,0])
-ax1.set_xlim(-3.7,0.5)
+ax1.set_xlim(-4,0.5)
 ax1.set_ylim(0,8.25)
 ax1.spines['left'].set_position(('data', 0))
 ax1.set_xlabel(r'normalized'+'\n' + r'log$_2$ fold-change', fontsize = 10)
