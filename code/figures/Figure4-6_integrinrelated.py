@@ -239,7 +239,7 @@ for i, val in enumerate(genes):
         df_2D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#7AA974')
 
-ax6.set_ylim(-3,1)
+ax6.set_ylim(-3.7,1.0)
 ax6.set_xlim(-1,len_ITG)
 ax6.spines['bottom'].set_position(('data', 0))
 ax6.set_xticks([])
@@ -258,8 +258,8 @@ for i, val in enumerate(genes):
         df_3D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#EAC264')
 
-ax7.set_ylim(-3,1)
-ax7.set_xlim(-1,len_ITG)
+ax3.set_ylim(-2,1.0)
+ax3.set_xlim(-1,len_ITG)
 ax7.spines['bottom'].set_position(('data', 0))
 ax7.set_xticks([])
 ax7.set_ylabel(r'normalized'+'\n' + r'log$_2$ fold-change', fontsize = 10)
