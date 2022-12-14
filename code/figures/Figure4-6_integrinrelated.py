@@ -21,14 +21,6 @@ import numpy as np
 from scipy.stats import f_oneway
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 
-def fdr(p_vals):
-    from scipy.stats import rankdata
-    ranked_p_values = rankdata(p_vals)
-    fdr = p_vals * len(p_vals) / ranked_p_values
-    fdr[fdr > 1] = 1
-
-    return fdr
-
 
 plt.style.use('styleNB.mplstyle')
 
@@ -36,23 +28,28 @@ colors = ['#738FC1', '#7AA974', '#D56C55', '#EAC264', '#AB85AC', '#C9D7EE', '#E8
 color = ['#738FC1', '#7AA974', '#CC462F', '#EAC264', '#97459B',
          '#7CD6C4', '#D87E6A', '#BCDB8A', '#BF78C4', '#9653C1']
 
-df_2D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20211222_screen_log2fold_diffs_tracketchcombined_all_sgRNA_pvalues.csv')
+df_2D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20220516_screen_log2fold_diffs_tracketch_all_sgRNA_pvalue.csv')
 # files = glob.glob('../../data/screen_summary/20220412_screen_log2fold_diffs_transwell_all_sgRNA_means_Colab-pvalues.csv')
 # df_2D = pd.read_csv(files[0])
 df_2D = df_2D[['gene','sgRNA','log2fold_diff_mean','exp','pvalue']]
 df_2D = df_2D.drop_duplicates()
-df_2D = df_2D[~df_2D.gene.str.contains('CONTROL')]
-df_2D_ctrl = df_2D[df_2D.gene.str.contains('CONTROL')]
-df_2D['fdr'] = fdr(df_2D.pvalue)
+# df_2D = df_2D[~df_2D.gene.str.contains('CONTROL')]
+# df_2D_ctrl = df_2D[df_2D.gene.str.contains('CONTROL')]
+# df_2D['fdr'] = fdr(df_2D.pvalue)
 # df_2D['gene'] = df_2D.gene.apply(lambda x: x[2:-2])
 
+
+# df_2D_err = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data.csv')
+# df_2D_err =  df_2D_err.drop_duplicates()
+# df_2D_err =  df_2D_err[df_2D_err.exp.str.contains('tracketch')]
+
+
 df_2D_err = pd.DataFrame()
-# files = glob.glob('../../data/screen_summary/20220412_screen_log2fold_diffs_transwell_*_all.csv')
-files = glob.glob('../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_tracketch_*_sgRNA_means.csv')
+files = glob.glob('../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_tracketch_*_all.csv')
 for f in files:
     df_2D_err = df_2D_err.append(pd.read_csv(f), ignore_index = True)
-df_2D_err = df_2D_err[['sgRNA', 'gene', 'log2fold_diff_mean']]
-df_2D_err.columns = ['sgRNA', 'gene', 'log2fold_diff']
+df_2D_err = df_2D_err[['sgRNA', 'gene', 'diff']]
+df_2D_err.columns = ['sgRNA', 'gene', 'log2fold_diff_mean']
 df_2D_ctrl = df_2D_err[df_2D_err.gene.str.contains('CONTROL')]
 
 # files = glob.glob('../../data/screen_summary/20220412_screen_log2fold_diffs_ECM_sgRNA_means_Colab-pvalues.csv')
@@ -60,22 +57,26 @@ df_2D_ctrl = df_2D_err[df_2D_err.gene.str.contains('CONTROL')]
 # df_3D =  df_3D.drop_duplicates()
 # df_3D = df_3D[~df_3D.gene.str.contains('CONTROL')]
 
-# df_3D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20220516_screen_log2fold_diffs_ECM_truncate_sgRNA_pvalues.csv')
-# df_3D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20220516_screen_log2fold_diffs_ECM_truncate_sgRNA_pvalues.csv')
+df_3D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20220516_screen_log2fold_diffs_3D_amoeboid_sgRNA_pvalue.csv')
 df_3D = df_3D[['gene','sgRNA','log2fold_diff_mean','exp','pvalue']]
 df_3D = df_3D.drop_duplicates()
 # df_3D = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_means.csv')
 # df_3D = df_3D[df_3D.sgRNA.isin(cell_lines_sg)]
-df_3D['fdr'] = fdr(df_3D.pvalue)
+# df_3D['fdr'] = fdr(df_3D.pvalue)
 # df_3D['gene'] = df_3D.gene.apply(lambda x: x[2:-2])
 
+df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_all.csv')
+df_3D_err =  df_3D_err.drop_duplicates()
+df_3D_err = df_3D_err[['sgRNA', 'gene', 'diff', 'exp']]
+df_3D_err.columns = ['sgRNA', 'gene', 'log2fold_diff_mean', 'exp']
 
-# df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_all.csv')
-df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_means_pvalue.csv')
+# df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data.csv')
 # df_3D_err =  df_3D_err.drop_duplicates()
-# df_3D_err = pd.read_csv('../../data/screen_summary/20220412_screen_log2fold_diffs_ECM_all.csv')
-df_3D_err = df_3D_err[['sgRNA', 'annotated_gene_symbol', 'diff', 'exp']]
-df_3D_err.columns = ['sgRNA', 'gene', 'log2fold_diff', 'exp']
+# df_3D_err =  df_3D_err[df_3D_err.exp.str.contains('3D_amoeboid')]
+
+# df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_all.csv')
+# df_3D_err = df_3D_err[['sgRNA', 'gene', 'diff', 'exp']]
+# df_3D_err.columns = ['sgRNA', 'gene', 'log2fold_diff', 'exp']
 df_3D_ctrl = df_3D_err[df_3D_err.gene.str.contains('CONTROL')]
 
 df_3D = df_3D[df_3D.sgRNA.isin(df_3D_err.sgRNA.unique())]
@@ -102,6 +103,7 @@ ax4 = fig.add_subplot(gs[4:6,:2])
 ax5 = fig.add_subplot(gs[6:8,:2])
 
 ax6 = fig.add_subplot(gs[4:6,2])
+ax7 = fig.add_subplot(gs[6:8,2])
 
 ###############################
 # A - 'top' hits - 2D
@@ -111,16 +113,26 @@ genes = [ 'ITGB2', 'ITGAM', '', 'APBB1IP', 'FERMT3', 'TLN1', 'RAP1A', 'RAP1B']
 for i, val in enumerate(genes):
     if val == '':
         continue
-    sgRNA = df_2D[df_2D.gene == val].sort_values('fdr').sgRNA.values[0]
-    df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
-    if np.any([val == 'ITGB2', val == 'ITGAM']):
-        ax1.barh(len(genes) - i-0.5,
-            df_2D[df_2D.gene == val].sort_values('fdr').log2fold_diff_mean.values[0],
-            xerr = df_err_, color = '#7AA974')
-    else:
-        ax1.barh(len(genes) - i,
-            df_2D[df_2D.gene == val].sort_values('fdr').log2fold_diff_mean.values[0],
-            xerr = df_err_, color = '#7AA974')
+
+    df_2D_temp = df_2D[df_2D.gene == val]
+    df_2D_temp = df_2D_temp[np.abs(df_2D_temp.log2fold_diff_mean) == np.max(np.abs(df_2D_temp.log2fold_diff_mean.values))]
+
+    sgRNA = df_2D_temp.sgRNA.unique()[0]
+    df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
+
+    ax1.barh(len(genes) - i-0.5,
+        df_2D_temp.log2fold_diff_mean.values[0],
+        xerr = df_err_, color = '#7AA974')
+    # if np.any([val == 'ITGB2', val == 'ITGAM']):
+    #     ax1.barh(len(genes) - i-0.5,
+    #         df_2D_temp.log2fold_diff_mean.values[0],
+    #         xerr = df_err_, color = '#7AA974')
+    #         # df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
+    #         # xerr = df_err_, color = '#7AA974')
+    # else:
+    #     ax1.barh(len(genes) - i,
+    #         df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
+    #         xerr = df_err_, color = '#7AA974')
 
 ax1.set_yticks([])
 ax1.set_xticks([-3,-2,-1,0])
@@ -133,7 +145,7 @@ ax1.set_xlabel(r'normalized'+'\n' + r'log$_2$ fold-change', fontsize = 10)
 ###############################
 x = np.arange(-1,10)
 percentiles_arr = np.arange(5,95,0.5)
-y_2D = np.percentile(df_2D_ctrl.groupby('sgRNA').log2fold_diff.mean(), percentiles_arr)
+y_2D = np.percentile(df_2D_ctrl.groupby('sgRNA').log2fold_diff_mean.mean(), percentiles_arr)
 
 # 2D data
 ax1.fill_betweenx(x, np.min(y_2D), np.max(y_2D), alpha = 0.2, color = 'grey', zorder =0)
@@ -161,7 +173,7 @@ cax1.spines['left'].set_visible(False)
 genes = [ 'ITGA1', 'ITGA2', 'ITGA2B', 'ITGA3', 'ITGA4', 'ITGA5', 'ITGA6', 'ITGA7',
          'ITGA9', 'ITGA10', 'ITGA11', 'ITGAD', 'ITGAE', 'ITGAL', 'ITGAM', 'ITGAV', 'ITGAX',
          '',
-         'ITGB1BP1', 'ITGB1BP2', 'ITGB1', 'ITGB2', 'ITGB3', 'ITGB3BP', 'ITGB4', 'ITGB7', 'ITGB8']
+         'ITGB1', 'ITGB2', 'ITGB3', 'ITGB4', 'ITGB7', 'ITGB8']
 len_ITG = len(genes)
 
 # Plot bar plot and error bars
@@ -169,11 +181,21 @@ len_ITG = len(genes)
 for i, val in enumerate(genes):
     if val == '':
         continue
-    sgRNA = df_2D[df_2D.gene == val].sort_values('fdr').sgRNA.values[0]
-    df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
+
+    df_2D_temp = df_2D[df_2D.gene == val]
+    df_2D_temp = df_2D_temp[np.abs(df_2D_temp.log2fold_diff_mean) == np.max(np.abs(df_2D_temp.log2fold_diff_mean.values))]
+
+    sgRNA = df_2D_temp.sgRNA.unique()[0]
+    df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
+
     ax2.bar(i,
-        df_2D[df_2D.gene == val].sort_values('fdr').log2fold_diff_mean.values[0],
+        df_2D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#7AA974')
+    # sgRNA = df_2D[df_2D.gene == val].sort_values('pvalue').sgRNA.values[0]
+    # df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
+    # ax2.bar(i,
+    #     df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
+    #     yerr = df_err_, color = '#7AA974')
 ax2.set_ylim(-3.7,1.0)
 ax2.set_xlim(-1,len_ITG)
 ax2.spines['bottom'].set_position(('data', 0))
@@ -183,12 +205,23 @@ ax2.set_ylabel(r'normalized'+'\n' + r'log$_2$ fold-change', fontsize = 10)
 for i, val in enumerate(genes):
     if val == '':
         continue
-    sgRNA = df_3D[df_3D.gene == val].sort_values('fdr').sgRNA.values[0]
-    df_err_ =  df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff.std()/np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA]))
+
+    df_3D_temp = df_3D[df_3D.gene == val]
+    df_3D_temp = df_3D_temp[np.abs(df_3D_temp.log2fold_diff_mean) == np.max(np.abs(df_3D_temp.log2fold_diff_mean.values))]
+
+    sgRNA = df_3D_temp.sgRNA.unique()[0]
+    df_err_ =  df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA]))
+
     ax3.bar(i,
-        df_3D[df_3D.gene == val].sort_values('fdr').log2fold_diff_mean.values[0],
+        df_3D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#EAC264')
-    print(val, ' : ', df_err_, np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA])), df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff.std() )
+    #
+    # sgRNA = df_3D[df_3D.gene == val].sort_values('pvalue').sgRNA.values[0]
+    # df_err_ =  df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA]))
+    # ax3.bar(i,
+    #     df_3D[df_3D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
+    #     yerr = df_err_, color = '#EAC264')
+    print(val, ' : ', df_err_, np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA])), df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff_mean.std() )
 ax3.set_ylim(-2,1.0)
 ax3.set_xlim(-1,len_ITG)
 ax3.spines['bottom'].set_position(('data', 0))
@@ -199,8 +232,8 @@ ax3.set_ylabel(r'normalized'+'\n' + r'log$_2$ fold-change', fontsize = 10)
 ###############################
 x = np.arange(-1,len_ITG+2)
 percentiles_arr = np.arange(5,95,0.5)
-y_2D = np.percentile(df_2D_ctrl.groupby('sgRNA').log2fold_diff.mean(), percentiles_arr)
-y_3D = np.percentile(df_3D_ctrl.groupby('sgRNA').log2fold_diff.mean(), percentiles_arr)
+y_2D = np.percentile(df_2D_ctrl.groupby('sgRNA').log2fold_diff_mean.mean(), percentiles_arr)
+y_3D = np.percentile(df_3D_ctrl.groupby('sgRNA').log2fold_diff_mean.mean(), percentiles_arr)
 
 # 2D data
 ax2.fill_between(x, np.min(y_2D), np.max(y_2D), alpha = 0.2, color = 'grey', zorder =0)
@@ -250,26 +283,60 @@ genes = ['VPS26A', 'VPS26B', 'VPS35','VPS29', 'COMMD1', 'CCDC22', 'CCDC92', 'C16
 for i, val in enumerate(genes):
     if val == '':
         continue
-    sgRNA = df_2D[df_2D.gene == val].sort_values('fdr').sgRNA.values[0]
-    df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
+
+    df_2D_temp = df_2D[df_2D.gene == val]
+    df_2D_temp = df_2D_temp[np.abs(df_2D_temp.log2fold_diff_mean) == np.max(np.abs(df_2D_temp.log2fold_diff_mean.values))]
+
+    sgRNA = df_2D_temp.sgRNA.unique()[0]
+    df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
+
     ax6.bar(i,
-        df_2D[df_2D.gene == val].sort_values('fdr').log2fold_diff_mean.values[0],
+        df_2D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#7AA974')
+
+    # sgRNA = df_2D[df_2D.gene == val].sort_values('pvalue').sgRNA.values[0]
+    # df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
+    # ax6.bar(i,
+    #     df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
+    #     yerr = df_err_, color = '#7AA974')
 ax6.set_ylim(-3,1)
 ax6.set_xlim(-1,len_ITG)
 ax6.spines['bottom'].set_position(('data', 0))
 ax6.set_xticks([])
 ax6.set_ylabel(r'normalized'+'\n' + r'log$_2$ fold-change', fontsize = 10)
 
+for i, val in enumerate(genes):
+    if val == '':
+        continue
+    df_3D_temp = df_3D[df_3D.gene == val]
+    df_3D_temp = df_3D_temp[np.abs(df_3D_temp.log2fold_diff_mean) == np.max(np.abs(df_3D_temp.log2fold_diff_mean.values))]
+
+    sgRNA = df_3D_temp.sgRNA.unique()[0]
+    df_err_ =  df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA]))
+
+    ax7.bar(i,
+        df_3D_temp.log2fold_diff_mean.values[0],
+        yerr = df_err_, color = '#EAC264')
+    # sgRNA = df_2D[df_2D.gene == val].sort_values('pvalue').sgRNA.values[0]
+    # df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
+    # ax7.bar(i,
+    #     df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
+    #     yerr = df_err_, color = '#EAC264')
+ax7.set_ylim(-3,1)
+ax7.set_xlim(-1,len_ITG)
+ax7.spines['bottom'].set_position(('data', 0))
+ax7.set_xticks([])
+ax7.set_ylabel(r'normalized'+'\n' + r'log$_2$ fold-change', fontsize = 10)
+
 
 # Plot shaded region
 ###############################
 x = np.arange(-1,len_ITG+2)
 percentiles_arr = np.arange(5,95,0.5)
-y_2D = np.percentile(df_2D_ctrl.groupby('sgRNA').log2fold_diff.mean(), percentiles_arr)
-y_3D = np.percentile(df_3D_ctrl.groupby('sgRNA').log2fold_diff.mean(), percentiles_arr)
+y_2D = np.percentile(df_2D_ctrl.groupby('sgRNA').log2fold_diff_mean.mean(), percentiles_arr)
+y_3D = np.percentile(df_3D_ctrl.groupby('sgRNA').log2fold_diff_mean.mean(), percentiles_arr)
 
-# Retromer/Retreiver
+# Retromer/Retreiver - 2D
 ax6.fill_between(x, np.min(y_2D), np.max(y_2D), alpha = 0.2, color = 'grey', zorder =0)
 divider1 = make_axes_locatable(ax6)
 cax3 = divider1.append_axes('right', size='7.5%', pad=0.05)
@@ -284,6 +351,20 @@ cax3.axes.get_xaxis().set_visible(False)
 cax3.axes.get_yaxis().set_visible(False)
 cax3.spines['bottom'].set_visible(False)
 
+# Retromer/Retreiver - 3D
+ax7.fill_between(x, np.min(y_3D), np.max(y_3D), alpha = 0.2, color = 'grey', zorder =0)
+divider1 = make_axes_locatable(ax7)
+cax4 = divider1.append_axes('right', size='7.5%', pad=0.05)
+
+sns.distplot(y_3D, hist = False, kde = True,
+                 kde_kws = {'shade': True, 'linewidth': 0, 'legend' : False},
+                  ax = cax4, vertical=True, color = 'grey')
+cax4.set_ylim(-3,1)
+cax4.set_xticks([])
+cax4.set_yticks([])
+cax4.axes.get_xaxis().set_visible(False)
+cax4.axes.get_yaxis().set_visible(False)
+cax4.spines['bottom'].set_visible(False)
 ###################
 
 ###############################
@@ -579,4 +660,4 @@ print(tukey)
 
 
 plt.tight_layout()
-fig.savefig('../../figures/Figure6_migration_integrins.pdf', bbox_inches='tight')
+fig.savefig('../../figures/Figure6_migration_integrins_.pdf', bbox_inches='tight')
