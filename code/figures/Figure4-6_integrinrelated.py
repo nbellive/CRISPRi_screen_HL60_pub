@@ -29,20 +29,8 @@ color = ['#738FC1', '#7AA974', '#CC462F', '#EAC264', '#97459B',
          '#7CD6C4', '#D87E6A', '#BCDB8A', '#BF78C4', '#9653C1']
 
 df_2D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20220516_screen_log2fold_diffs_tracketch_all_sgRNA_pvalue.csv')
-# files = glob.glob('../../data/screen_summary/20220412_screen_log2fold_diffs_transwell_all_sgRNA_means_Colab-pvalues.csv')
-# df_2D = pd.read_csv(files[0])
 df_2D = df_2D[['gene','sgRNA','log2fold_diff_mean','exp','pvalue']]
 df_2D = df_2D.drop_duplicates()
-# df_2D = df_2D[~df_2D.gene.str.contains('CONTROL')]
-# df_2D_ctrl = df_2D[df_2D.gene.str.contains('CONTROL')]
-# df_2D['fdr'] = fdr(df_2D.pvalue)
-# df_2D['gene'] = df_2D.gene.apply(lambda x: x[2:-2])
-
-
-# df_2D_err = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data.csv')
-# df_2D_err =  df_2D_err.drop_duplicates()
-# df_2D_err =  df_2D_err[df_2D_err.exp.str.contains('tracketch')]
-
 
 df_2D_err = pd.DataFrame()
 files = glob.glob('../../data/screen_summary/log2foldchange/20220412_screen_log2fold_diffs_tracketch_*_all.csv')
@@ -52,42 +40,21 @@ df_2D_err = df_2D_err[['sgRNA', 'gene', 'diff']]
 df_2D_err.columns = ['sgRNA', 'gene', 'log2fold_diff_mean']
 df_2D_ctrl = df_2D_err[df_2D_err.gene.str.contains('CONTROL')]
 
-# files = glob.glob('../../data/screen_summary/20220412_screen_log2fold_diffs_ECM_sgRNA_means_Colab-pvalues.csv')
-# df_3D = pd.read_csv(files[0])
-# df_3D =  df_3D.drop_duplicates()
-# df_3D = df_3D[~df_3D.gene.str.contains('CONTROL')]
 
 df_3D = pd.read_csv('../../data/screen_summary/stats/sgRNA_avg/20220516_screen_log2fold_diffs_3D_amoeboid_sgRNA_pvalue.csv')
 df_3D = df_3D[['gene','sgRNA','log2fold_diff_mean','exp','pvalue']]
 df_3D = df_3D.drop_duplicates()
-# df_3D = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_sgRNA_means.csv')
-# df_3D = df_3D[df_3D.sgRNA.isin(cell_lines_sg)]
-# df_3D['fdr'] = fdr(df_3D.pvalue)
-# df_3D['gene'] = df_3D.gene.apply(lambda x: x[2:-2])
 
 df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_all.csv')
 df_3D_err =  df_3D_err.drop_duplicates()
 df_3D_err = df_3D_err[['sgRNA', 'gene', 'diff', 'exp']]
 df_3D_err.columns = ['sgRNA', 'gene', 'log2fold_diff_mean', 'exp']
-
-# df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/collated_screen_data.csv')
-# df_3D_err =  df_3D_err.drop_duplicates()
-# df_3D_err =  df_3D_err[df_3D_err.exp.str.contains('3D_amoeboid')]
-
-# df_3D_err = pd.read_csv('../../data/screen_summary/log2foldchange/20220516_screen_log2fold_diffs_ECM_all.csv')
-# df_3D_err = df_3D_err[['sgRNA', 'gene', 'diff', 'exp']]
-# df_3D_err.columns = ['sgRNA', 'gene', 'log2fold_diff', 'exp']
 df_3D_ctrl = df_3D_err[df_3D_err.gene.str.contains('CONTROL')]
 
 df_3D = df_3D[df_3D.sgRNA.isin(df_3D_err.sgRNA.unique())]
 
 #############################################
-#  Figure (4?): focus on integrins and their trafficking
-# (A) show key top hits from transwell - integrins alpham beta2
-# (B) integrin hits in 2D/3D datasets
-# (C) experimental data showing speed and persistence in 2D/3D
-# (D) transwell data on trafficking
-# (E) flow cytometry to show drop in integrin expression
+#  Figure on integrins and their trafficking
 #############################################
 
 
@@ -108,7 +75,6 @@ ax7 = fig.add_subplot(gs[6:8,2])
 ###############################
 # A - 'top' hits - 2D
 ###############################
-# genes = [ 'ITGB2', 'ITGAM', '', 'APBB1IP', 'TLN1', 'FERMT3', 'RAP1A', 'RAP1B']
 genes = [ 'ITGB2', 'ITGAM', '', 'APBB1IP', 'FERMT3', 'TLN1', 'RAP1A', 'RAP1B']
 for i, val in enumerate(genes):
     if val == '':
@@ -123,16 +89,7 @@ for i, val in enumerate(genes):
     ax1.barh(len(genes) - i-0.5,
         df_2D_temp.log2fold_diff_mean.values[0],
         xerr = df_err_, color = '#7AA974')
-    # if np.any([val == 'ITGB2', val == 'ITGAM']):
-    #     ax1.barh(len(genes) - i-0.5,
-    #         df_2D_temp.log2fold_diff_mean.values[0],
-    #         xerr = df_err_, color = '#7AA974')
-    #         # df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
-    #         # xerr = df_err_, color = '#7AA974')
-    # else:
-    #     ax1.barh(len(genes) - i,
-    #         df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
-    #         xerr = df_err_, color = '#7AA974')
+
 
 ax1.set_yticks([])
 ax1.set_xticks([-3,-2,-1,0])
@@ -165,8 +122,6 @@ cax1.axes.get_yaxis().set_visible(False)
 cax1.spines['left'].set_visible(False)
 
 
-
-
 ###############################
 # B - integrins all
 ###############################
@@ -191,11 +146,7 @@ for i, val in enumerate(genes):
     ax2.bar(i,
         df_2D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#7AA974')
-    # sgRNA = df_2D[df_2D.gene == val].sort_values('pvalue').sgRNA.values[0]
-    # df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
-    # ax2.bar(i,
-    #     df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
-    #     yerr = df_err_, color = '#7AA974')
+
 ax2.set_ylim(-3.7,1.0)
 ax2.set_xlim(-1,len_ITG)
 ax2.spines['bottom'].set_position(('data', 0))
@@ -215,13 +166,7 @@ for i, val in enumerate(genes):
     ax3.bar(i,
         df_3D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#EAC264')
-    #
-    # sgRNA = df_3D[df_3D.gene == val].sort_values('pvalue').sgRNA.values[0]
-    # df_err_ =  df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA]))
-    # ax3.bar(i,
-    #     df_3D[df_3D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
-    #     yerr = df_err_, color = '#EAC264')
-    print(val, ' : ', df_err_, np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA])), df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff_mean.std() )
+    # print(val, ' : ', df_err_, np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA])), df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff_mean.std() )
 ax3.set_ylim(-2,1.0)
 ax3.set_xlim(-1,len_ITG)
 ax3.spines['bottom'].set_position(('data', 0))
@@ -294,11 +239,6 @@ for i, val in enumerate(genes):
         df_2D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#7AA974')
 
-    # sgRNA = df_2D[df_2D.gene == val].sort_values('pvalue').sgRNA.values[0]
-    # df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
-    # ax6.bar(i,
-    #     df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
-    #     yerr = df_err_, color = '#7AA974')
 ax6.set_ylim(-3,1)
 ax6.set_xlim(-1,len_ITG)
 ax6.spines['bottom'].set_position(('data', 0))
@@ -317,11 +257,7 @@ for i, val in enumerate(genes):
     ax7.bar(i,
         df_3D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#EAC264')
-    # sgRNA = df_2D[df_2D.gene == val].sort_values('pvalue').sgRNA.values[0]
-    # df_err_ =  df_2D_err[df_2D_err.sgRNA == sgRNA].log2fold_diff_mean.std()/np.sqrt(len(df_2D_err[df_2D_err.sgRNA == sgRNA]))
-    # ax7.bar(i,
-    #     df_2D[df_2D.gene == val].sort_values('pvalue').log2fold_diff_mean.values[0],
-    #     yerr = df_err_, color = '#EAC264')
+
 ax7.set_ylim(-3,1)
 ax7.set_xlim(-1,len_ITG)
 ax7.spines['bottom'].set_position(('data', 0))
@@ -534,7 +470,6 @@ ax5.set_ylim(-0.5,1.0)
 ax5.set_ylabel('average persistence', fontsize = 10)
 ax5.spines['bottom'].set_position(('data', 0))
 ax5.set_xticks([])
-
 
 
 ########################
