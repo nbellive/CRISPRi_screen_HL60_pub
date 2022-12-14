@@ -91,8 +91,6 @@ ax5 = fig.add_subplot(gs[1,2])
 
 #############################
 
-# df_growth = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_growth_gene_pvalues.csv')
-# df_diff = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220412_screen_log2fold_diffs_differentiation_gene_pvalues.csv')
 df_growth = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_growth_means_pvalue.csv')
 df_diff = pd.read_csv('../../data/screen_summary/stats/gene_avg/20220516_screen_log2fold_diffs_differentiation_means_pvalue.csv')
 
@@ -120,8 +118,8 @@ ax5.set_yticks([])
 
 # ax2.spines['left'].set_position(('data', 0))
 # ax2.spines['bottom'].set_position(('data', 0))
-ax2.hlines(0, -2.5, 0.6, linestyles = '--')
-ax2.vlines(0, -1.9, 1.4, linestyles = '--')
+ax2.hlines(0, -2.5, 0.6, linestyles = '--', color = 'k')
+ax2.vlines(0, -1.9, 1.4, linestyles = '--', color = 'k')
 for ax_ in [ax1, ax2]:
     ax_.set_xlim(-2.5, 0.6)
 for ax_ in [ax2, ax4, ax5]:
@@ -136,58 +134,58 @@ ax2.scatter(df_compare.log2fold_diff_mean_x, df_compare.log2fold_diff_mean_y,
 
 ax2.scatter(df_compare[df_compare.gene.isin(LAMTOR_genes)].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(LAMTOR_genes)].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'mTORC1 signaling',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'mTORC1 signaling',
            color = color[3], s = 20, alpha = 1)
 
 ax2.scatter(df_compare[df_compare.gene.isin(mito_genes)].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(mito_genes)].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'mitochondrial\ntranslation',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'mitochondrial\ntranslation',
            color = color[2], s = 20, alpha = 1)
 
 ax2.scatter(df_compare[df_compare.gene.isin(electron_chain_genes)].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(electron_chain_genes)].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'electron transport chain',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'electron transport chain',
            color = color[1], s = 20, alpha = 1)
 
 ax2.scatter(df_compare[df_compare.gene.isin(sumo_genes)].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(sumo_genes)].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'sumoylation (SUMO2, SENP1)',
-           color = color[6], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'sumoylation (SUMO2, SENP1)',
+           color = color_set_2[7], s = 20, alpha = 1)
 
 
 ax2.scatter(df_compare[df_compare.gene.isin(['MTOR'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['MTOR'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'mTOR',
-           color = color_set_2[7], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'mTOR',
+           color = '#005826', s = 20, alpha = 1)
 
 ax2.scatter(df_compare[df_compare.gene.isin(['RARA'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['RARA'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'RARA',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'RARA',
            color = color[4], s = 20, alpha = 1)
 
 ax2.scatter(df_compare[df_compare.gene.isin(['CEBPA'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['CEBPA'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'CEBPA',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'CEBPA',
            color = color_set_2[5], s = 20, alpha = 1)
 
 ax2.scatter(df_compare[df_compare.gene.isin(['CEBPE'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['CEBPE'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'CEBPE',
-           color = color_set_3[5], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'CEBPE',
+           color = '#F14CC2', s = 20, alpha = 1)
 
 ax2.scatter(df_compare[df_compare.gene.isin(['SPI1'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['SPI1'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'SPI1',
-           color = color_set_3[1], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'SPI1',
+           color = '#03E1FF', s = 20, alpha = 1)
 
 ax2.scatter(df_compare[df_compare.gene.isin(['TFEB'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['TFEB'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFEB',
-           color = color_set_3[1], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'TFEB',
+           color = '#B77A29', s = 20, alpha = 1)
 
 ax2.scatter(df_compare[df_compare.gene.isin(['TFE3'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['TFE3'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFE3',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'TFE3',
            color = color_set_3[1], s = 20, alpha = 1)
 
 
@@ -220,8 +218,8 @@ ax3.set_yticks([])
 
 # ax4.spines['left'].set_position(('data', 0))
 # ax4.spines['bottom'].set_position(('data', 0))
-ax4.hlines(0, -2.7, 1.4, linestyles = '--')
-ax4.vlines(0, -1.9, 1.4, linestyles = '--')
+ax4.hlines(0, -2.7, 1.4, linestyles = '--', color = 'k')
+ax4.vlines(0, -1.9, 1.4, linestyles = '--', color = 'k')
 for ax_ in [ax3, ax4]:
     ax_.set_xlim(-2.7, 1.4)
 
@@ -234,58 +232,58 @@ ax4.scatter(df_compare.log2fold_diff_mean_x, df_compare.log2fold_diff_mean_y,
 
 ax4.scatter(df_compare[df_compare.gene.isin(LAMTOR_genes)].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(LAMTOR_genes)].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'mTORC1 signaling',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'mTORC1 signaling',
            color = color[3], s = 20, alpha = 1)
 
 ax4.scatter(df_compare[df_compare.gene.isin(mito_genes)].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(mito_genes)].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'mitochondrial\ntranslation',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'mitochondrial\ntranslation',
            color = color[2], s = 20, alpha = 1)
 
 ax4.scatter(df_compare[df_compare.gene.isin(electron_chain_genes)].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(electron_chain_genes)].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'electron transport chain',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'electron transport chain',
            color = color[1], s = 20, alpha = 1)
 
 ax4.scatter(df_compare[df_compare.gene.isin(sumo_genes)].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(sumo_genes)].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'sumoylation (SUMO2, SENP1)',
-           color = color[6], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'sumoylation (SUMO2, SENP1)',
+           color = color_set_2[7], s = 20, alpha = 1)
 
 
 ax4.scatter(df_compare[df_compare.gene.isin(['MTOR'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['MTOR'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'mTOR',
-           color = color_set_2[7], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'mTOR',
+           color = '#005826', s = 20, alpha = 1)
 
 ax4.scatter(df_compare[df_compare.gene.isin(['RARA'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['RARA'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'RARA',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'RARA',
            color = color[4], s = 20, alpha = 1)
 
 ax4.scatter(df_compare[df_compare.gene.isin(['CEBPA'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['CEBPA'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'CEBPA',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'CEBPA',
            color = color_set_2[5], s = 20, alpha = 1)
 
 ax4.scatter(df_compare[df_compare.gene.isin(['CEBPE'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['CEBPE'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'CEBPE',
-           color = color_set_3[5], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'CEBPE',
+           color = '#F14CC2', s = 20, alpha = 1)
 
 ax4.scatter(df_compare[df_compare.gene.isin(['SPI1'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['SPI1'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'SPI1',
-           color = color_set_3[1], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'SPI1',
+           color = '#03E1FF', s = 20, alpha = 1)
 
 ax4.scatter(df_compare[df_compare.gene.isin(['TFEB'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['TFEB'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFEB',
-           color = color_set_3[1], s = 20, alpha = 1)
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'TFEB',
+           color = '#B77A29', s = 20, alpha = 1)
 
 ax4.scatter(df_compare[df_compare.gene.isin(['TFE3'])].log2fold_diff_mean_x,
             df_compare[df_compare.gene.isin(['TFE3'])].log2fold_diff_mean_y,
-          edgecolors = 'k', linewidths = 0.4, zorder = 10, label = 'TFE3',
+          edgecolors = 'k', linewidths = 0.5, zorder = 10, label = 'TFE3',
            color = color_set_3[1], s = 20, alpha = 1)
 
 # # Calculate controls
@@ -308,5 +306,5 @@ for ax_ in [ax1, ax2, ax3, ax4, ax5]:
 plt.tight_layout()
 fig.savefig('../../figures/Fig2B_screens_scatter_.pdf')
 
-# ax2.legend()
-# fig.savefig('../../figures/Fig2B_screens_scatter_wLegend.pdf')
+ax2.legend()
+fig.savefig('../../figures/Fig2B_screens_scatter_wLegend.pdf')
