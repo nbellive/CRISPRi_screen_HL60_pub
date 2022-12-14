@@ -114,7 +114,7 @@ sns.distplot(y_2D, hist = False, kde = True,
                   ax = cax1, vertical=False, color = 'grey')
 # cax1.set_ylim(-2,1)
 cax1.set_xticks([-3,-2,-1,0])
-cax1.set_xlim(-4,0.5)
+cax1.set_xlim(-3.7,0.5)
 cax1.set_xticks([])
 cax1.set_yticks([])
 cax1.axes.get_xaxis().set_visible(False)
@@ -147,8 +147,7 @@ for i, val in enumerate(genes):
         df_2D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#7AA974')
 
-ax2.set_ylim(-3.8,1.0)
-ax2.set_yticks([-3,-2,-1,0,1])
+ax2.set_ylim(-3.7,1.0)
 ax2.set_xlim(-1,len_ITG)
 ax2.spines['bottom'].set_position(('data', 0))
 ax2.set_xticks([])
@@ -169,7 +168,6 @@ for i, val in enumerate(genes):
         yerr = df_err_, color = '#EAC264')
     # print(val, ' : ', df_err_, np.sqrt(len(df_3D_err[df_3D_err.sgRNA == sgRNA])), df_3D_err[df_3D_err.sgRNA == sgRNA].log2fold_diff_mean.std() )
 ax3.set_ylim(-2,1.0)
-ax3.set_yticks([-2,-1,0,1])
 ax3.set_xlim(-1,len_ITG)
 ax3.spines['bottom'].set_position(('data', 0))
 ax3.set_xticks([])
@@ -190,8 +188,8 @@ cax2 = divider1.append_axes('right', size='7.5%', pad=0.05)
 sns.distplot(y_2D, hist = False, kde = True,
                  kde_kws = {'shade': True, 'linewidth': 0, 'legend' : False},
                   ax = cax2, vertical=True, color = 'grey')
-
-cax2.set_ylim(-3.8,1.0)
+cax2.set_ylim(-2,1)
+cax2.set_ylim(-3.7,1.0)
 cax2.set_xticks([])
 cax2.set_yticks([])
 cax2.axes.get_xaxis().set_visible(False)
@@ -241,8 +239,9 @@ for i, val in enumerate(genes):
         df_2D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#7AA974')
 
-ax6.set_ylim(-3.8,1.0)
-ax6.set_yticks([-3,-2,-1,0,1])
+ax6.set_ylim(-3.7,1.0)
+ax6.set_xlim(-1,len_ITG)
+ax6.set_ylim(-3,1)
 ax6.set_xlim(-1,len_ITG)
 ax6.spines['bottom'].set_position(('data', 0))
 ax6.set_xticks([])
@@ -261,9 +260,8 @@ for i, val in enumerate(genes):
         df_3D_temp.log2fold_diff_mean.values[0],
         yerr = df_err_, color = '#EAC264')
 
-ax7.set_ylim(-2,1.0)
-ax7.set_yticks([-2,-1,0,1])
-ax7.set_xlim(-1,len_ITG)
+ax3.set_ylim(-2,1.0)
+ax3.set_xlim(-1,len_ITG)
 ax7.spines['bottom'].set_position(('data', 0))
 ax7.set_xticks([])
 ax7.set_ylabel(r'normalized'+'\n' + r'log$_2$ fold-change', fontsize = 10)
@@ -284,7 +282,7 @@ cax3 = divider1.append_axes('right', size='7.5%', pad=0.05)
 sns.distplot(y_2D, hist = False, kde = True,
                  kde_kws = {'shade': True, 'linewidth': 0, 'legend' : False},
                   ax = cax3, vertical=True, color = 'grey')
-cax3.set_ylim(-3.8,1.0)
+cax3.set_ylim(-3,1)
 cax3.set_xticks([])
 cax3.set_yticks([])
 cax3.axes.get_xaxis().set_visible(False)
@@ -299,7 +297,7 @@ cax4 = divider1.append_axes('right', size='7.5%', pad=0.05)
 sns.distplot(y_3D, hist = False, kde = True,
                  kde_kws = {'shade': True, 'linewidth': 0, 'legend' : False},
                   ax = cax4, vertical=True, color = 'grey')
-cax4.set_ylim(-2,1.0)
+cax4.set_ylim(-3,1)
 cax4.set_xticks([])
 cax4.set_yticks([])
 cax4.axes.get_xaxis().set_visible(False)
