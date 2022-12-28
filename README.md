@@ -1,6 +1,6 @@
 # Cell migration CRISPRi screens in human neutrophils reveal regulators of context-dependent migration and differentiation state
 
-[DOI: https://doi.org/10.1101/2022.12.16.520717](https://doi.org/10.1101/2022.12.16.520717)
+[BioRxiv preprint, DOI: https://doi.org/10.1101/2022.12.16.520717](https://doi.org/10.1101/2022.12.16.520717)
 
 ## Branches
 This repository contains two branches -- `master`, and
